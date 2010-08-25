@@ -1,0 +1,52 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "main", "main.csproj", "{708BA454-6518-4D62-8645-3FE892ACD5B7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9} = {36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "core\core.csproj", "{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Help", "modules\Help\Help.csproj", "{7F01240F-0F0F-4629-B869-56230A286ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDriver", "modules\DataDriver\DataDriver.csproj", "{9CBCE713-2DC9-40A3-B098-08DE17DCFC89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloodServ", "modules\FloodServ\FloodServ.csproj", "{AE58BA28-3D52-4007-959F-4955FBC1B809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NickServ", "modules\NickServ\NickServ.csproj", "{507F8015-C5C2-43EA-80FF-270E8F53CCA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{708BA454-6518-4D62-8645-3FE892ACD5B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708BA454-6518-4D62-8645-3FE892ACD5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708BA454-6518-4D62-8645-3FE892ACD5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708BA454-6518-4D62-8645-3FE892ACD5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BE5AC9-35C8-4312-BB51-9ED5E5BC60B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F01240F-0F0F-4629-B869-56230A286ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F01240F-0F0F-4629-B869-56230A286ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F01240F-0F0F-4629-B869-56230A286ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F01240F-0F0F-4629-B869-56230A286ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBCE713-2DC9-40A3-B098-08DE17DCFC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBCE713-2DC9-40A3-B098-08DE17DCFC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBCE713-2DC9-40A3-B098-08DE17DCFC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBCE713-2DC9-40A3-B098-08DE17DCFC89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE58BA28-3D52-4007-959F-4955FBC1B809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE58BA28-3D52-4007-959F-4955FBC1B809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE58BA28-3D52-4007-959F-4955FBC1B809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE58BA28-3D52-4007-959F-4955FBC1B809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{507F8015-C5C2-43EA-80FF-270E8F53CCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507F8015-C5C2-43EA-80FF-270E8F53CCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507F8015-C5C2-43EA-80FF-270E8F53CCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507F8015-C5C2-43EA-80FF-270E8F53CCA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+K:\BlackLight\Services\src\obj\Debug\main.exe
+K:\BlackLight\Services\src\obj\Debug\main.pdb
+K:\BlackLight\Services\src\obj\Debug\ResolveAssemblyReference.cache
+K:\BlackLight\Services\main.exe
+K:\BlackLight\Services\main.pdb

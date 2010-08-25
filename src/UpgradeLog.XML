@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="BlackLight.Services">
+</Property><Property Name="Solution File" Value="K:\BlackLight\Services\src\BlackLight.Services.sln">
+</Property><Property Name="User Options File" Value="K:\BlackLight\Services\src\BlackLight.Services.suo">
+</Property><Property Name="Date" Value="Wednesday, February 10, 2010">
+</Property><Property Name="Time" Value="9:22 AM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="BlackLight.Services.sln" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\BlackLight.Services.sln">
+</Event><Event ErrorLevel="0" Project="" Source="BlackLight.Services.suo" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\BlackLight.Services.suo">
+</Event><Event ErrorLevel="0" Project="main" Source="main.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\main.csproj">
+</Event><Event ErrorLevel="0" Project="main" Source="main.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\main.csproj.user">
+</Event><Event ErrorLevel="0" Project="main" Source="AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="main" Source="main.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\main.cs">
+</Event><Event ErrorLevel="0" Project="main" Source="main.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="main" Source="main.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="core" Source="core\core.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\core.csproj">
+</Event><Event ErrorLevel="0" Project="core" Source="core\core.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\core.csproj.user">
+</Event><Event ErrorLevel="0" Project="core" Source="core\AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Commands.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Commands.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Config.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Config.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Converters.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Converters.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Core.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Core.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\DataBases.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\DataBases.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Errors.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Errors.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\IRC.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\IRC.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\IRCd.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\IRCd.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\LocalClients.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\LocalClients.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Modules.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Modules.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Nodes.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Nodes.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\ServicesDeamon.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\ServicesDeamon.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\Timers.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\Timers.cs">
+</Event><Event ErrorLevel="0" Project="core" Source="core\DataBases.resx" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\core\DataBases.resx">
+</Event><Event ErrorLevel="0" Project="core" Source="core\core.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="core" Source="core\core.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\Help.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\Help.csproj">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\Help.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\Help.csproj.user">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\CommandList.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\CommandList.cs">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\ErrorList.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\ErrorList.cs">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\Module.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\Module.cs">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\ResponseList.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\Help\ResponseList.cs">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\Help.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Help" Source="modules\Help\Help.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\DataDriver.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\DataDriver\DataDriver.csproj">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\DataDriver.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\DataDriver\DataDriver.csproj.user">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\DataDriver\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\Module.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\DataDriver\Module.cs">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\DataDriver.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="DataDriver" Source="modules\DataDriver\DataDriver.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\FloodServ.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\FloodServ\FloodServ.csproj">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\FloodServ.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\FloodServ\FloodServ.csproj.user">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\FloodServ\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\FloodServ.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\FloodServ\FloodServ.cs">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\Module.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\FloodServ\Module.cs">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\FloodServ.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="FloodServ" Source="modules\FloodServ\FloodServ.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\NickServ.csproj" Description="Project file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\NickServ\NickServ.csproj">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\NickServ.csproj.user" Description="Project user file successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\NickServ\NickServ.csproj.user">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\AssemblyInfo.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\NickServ\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\Module.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\NickServ\Module.cs">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\NickServ.cs" Description="File successfully backed up as K:\BlackLight\Services\src\backup\Backup\modules\NickServ\NickServ.cs">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\NickServ.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="NickServ" Source="modules\NickServ\NickServ.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="BlackLight.Services.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="BlackLight.Services.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="main" Source="main.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="core" Source="core\core.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Help" Source="modules\Help\Help.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="DataDriver" Source="modules\DataDriver\DataDriver.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="FloodServ" Source="modules\FloodServ\FloodServ.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="NickServ" Source="modules\NickServ\NickServ.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

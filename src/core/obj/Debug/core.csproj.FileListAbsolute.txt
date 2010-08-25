@@ -1,0 +1,7 @@
+K:\BlackLight\Services\src\core\obj\Debug\ResolveAssemblyReference.cache
+K:\BlackLight\Services\src\core\obj\Debug\BlackLight.Services.DB.DataBase.resources
+K:\BlackLight\Services\src\core\obj\Debug\core.csproj.GenerateResource.Cache
+K:\BlackLight\Services\src\core\obj\Debug\core.pdb
+K:\BlackLight\Services\Modules\core\core.dll
+K:\BlackLight\Services\Modules\core\core.pdb
+K:\BlackLight\Services\src\core\obj\Debug\core.dll
