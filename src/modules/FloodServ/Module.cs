@@ -68,7 +68,7 @@ namespace BlackLight
 							}
 							BlackLight.Services.Timers.Timer FSSaveTimer;
 							FSSaveTimer = new BlackLight.Services.Timers.Timer(new TimeSpan(0), new TimeSpan(0, 5, 0), - 1, new Timers.TimedCallBack(TimerSaveDB));
-							MyBase.Timers.Add(FSSaveTimer);
+							MyBase.timerController.addTimer(FSSaveTimer);
 							MyBase.Core.OnFinishedNetBurst += new BlackLight.Services.Core.ServicesCore.OnFinishedNetBurstEventHandler(this.OnConnect);
 						}
 						catch (Exception ex)

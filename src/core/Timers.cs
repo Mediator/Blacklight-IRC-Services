@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections;
 using BlackLight;
 using System.Threading;
+using System.Collections.Generic;
 namespace BlackLight
 {
 	namespace Services
@@ -26,164 +27,6 @@ namespace BlackLight
 			
 			/// -----------------------------------------------------------------------------
 			/// Project	 : BlackLight Services
-			/// Class	 : Timers
-			///
-			/// -----------------------------------------------------------------------------
-			/// <summary>
-			/// Container for a list of timers
-			/// </summary>
-			/// <remarks>
-			/// </remarks>
-			/// <history>
-			/// 	[Caleb]	6/18/2005	Created
-			/// </history>
-			/// -----------------------------------------------------------------------------
-			public sealed class TimerList : IList, ICollection, IEnumerable
-			{
-				
-				readonly ArrayList a;
-				public TimerList(ServicesDeamon tBase) {
-					a = new ArrayList();
-					this.Base = tBase;
-				}
-				private ServicesDeamon Base;
-				public void CopyTo (System.Array array, int index)
-				{
-					a.CopyTo(array, index);
-				}
-				public int Count
-				{
-					get{
-						return a.Count;
-					}
-				}
-				bool ICollection.IsSynchronized
-				{
-					get{
-						return false;
-					}
-				}
-				object ICollection.SyncRoot
-				{
-					get{
-						return this;
-					}
-				}
-				public System.Collections.IEnumerator GetEnumerator()
-				{
-					return a.GetEnumerator();
-				}
-				int IList.Add(object value)
-				{
-					return Add((Timer)value);
-				}
-				public int Add(Timer value)
-				{
-					return a.Add(value);
-				}
-				public void Clear ()
-				{
-					a.Clear();
-				}
-				bool IList.Contains(object value)
-				{
-					return Contains((Timer)value);
-				}
-				public bool Contains(Timer value)
-				{
-					return a.Contains(value);
-				}
-				int IList.IndexOf(object value)
-				{
-					return IndexOf((Timer)value);
-				}
-				public int IndexOf(Timer value)
-				{
-					return a.IndexOf(value);
-				}
-				void IList.Insert (int index, object value)
-				{
-					Insert(index, (Timer)value);
-				}
-				public void Insert (int index, Timer value)
-				{
-					a.Insert(index, value);
-				}
-				bool IList.IsFixedSize
-				{
-					get{
-						return false;
-					}
-				}
-				bool IList.IsReadOnly
-				{
-					get{
-						return false;
-					}
-				}
-				object IList.this[int index]
-				{
-					get
-					{
-						return ((Timer)(a[index]));
-					}
-					set
-					{
-						a[index] = value;
-					}
-				}
-				public Timer this[int index]
-				{
-					get{
-						return ((Timer)(a[index]));
-					}
-					set
-					{
-						a[index] = value;
-					}
-				}
-				void IList.Remove (object value)
-				{
-					Remove((Timer)value);
-				}
-				public void Remove (Timer value)
-				{
-					a.Remove(value);
-				}
-				public void RemoveAt (int index)
-				{
-					a.RemoveAt(index);
-				}
-				public void CheckTimers ()
-				{
-					int idx = 0;
-					while (idx < Count)
-					{
-						this[idx].CheckTimer();
-						idx += 1;
-					}
-				}
-				public void DisregaurdTimers ()
-				{
-					int idx = 0;
-					while (idx < Count)
-					{
-						if (this[idx].Repeat == 0)
-						{
-							RemoveAt(idx);
-						}
-						else
-						{
-							idx += 1;
-						}
-					}
-				}
-				
-			}
-			
-			
-			/// -----------------------------------------------------------------------------
-			/// Project	 : BlackLight Services
 			/// Class	 : Timer
 			///
 			/// -----------------------------------------------------------------------------
@@ -199,97 +42,97 @@ namespace BlackLight
 			public sealed class Timer
 			{
 				
-				public readonly DateTime StartTime;
-				private int tRuns;
-				public readonly TimeSpan Interval;
-				private bool tPaused;
-				private DateTime tNextRun;
-				private int tRepeat;
-				public readonly TimedCallBack Callback;
-				public readonly ArrayList Params;
-				public Timer(TimeSpan delay, TimeSpan interval, int repeatcount, TimedCallBack callback, params object[] @params) {
-					if (repeatcount < - 1 || repeatcount == 0)
+				public readonly DateTime startTime;
+				private int _runs;
+				public readonly TimeSpan interval;
+				private bool _paused;
+				private DateTime _nextRun;
+				private int _repeat;
+				public readonly TimedCallBack callback;
+				public readonly ArrayList @params;
+				public Timer(TimeSpan delay, TimeSpan interval, int repeatCount, TimedCallBack callback, params object[] @params) {
+					if (repeatCount < -1 || repeatCount == 0)
 					{
-						throw (new ArgumentException("Invalid repetition count. Use -1 for infinate", "repeatcount"));
+						throw (new ArgumentException("Invalid repetition count. Use -1 for infinate", "repeatCount"));
 					}
 					if (callback == null)
 					{
 						throw (new ArgumentNullException("callback", "Callback cannot be nothing."));
 					}
-					this.StartTime = DateTime.Now.Add(delay);
-					this.Interval = interval;
-					tNextRun = StartTime.Add(interval);
-					tRepeat = repeatcount;
-					this.Callback = callback;
-					tPaused = false;
-					tRuns = 0;
-					this.Params = new ArrayList(@params);
+					this.startTime = DateTime.Now.Add(delay);
+					this.interval = interval;
+					this._nextRun = this.startTime.Add(this.interval);
+					this._repeat = repeatCount;
+					this.callback = callback;
+					this._paused = false;
+					this._runs = 0;
+					this.@params = new ArrayList(@params);
 				}
-				public DateTime NextRun
+				public DateTime nextRun
 				{
 					get{
-						return tNextRun;
+						return _nextRun;
 					}
 				}
-				public int Repeat
+				public int repeat
 				{
 					get{
-						return tRepeat;
+						return _repeat;
 					}
 				}
-				public int TimesRan
+				public int timesRan
 				{
 					get{
-						return tRuns;
+						return _runs;
 					}
 				}
-				public bool Paused
+				public bool paused
 				{
 					get{
-						return tPaused;
+						return _paused;
 					}
 					
 				}
-				public bool Pause()
+				public bool pause()
 				{
-					if (tPaused == true)
+					if (_paused == true)
 					{
-						tPaused = false;
+						_paused = false;
 						return false;
 					}
 					else
 					{
-						tPaused = true;
+						_paused = true;
 						return true;
 					}
 				}
 				
 				
-				public void CheckTimer ()
+				public void checkTimer ()
 				{
-					if (tRepeat == 0)
+					if (_repeat == 0)
 					{
 						return;
 					}
-					if (tPaused == false && DateTime.Now > tNextRun)
+					if (_paused == false && DateTime.Now > _nextRun)
 					{
 						try
 						{
-							Callback(this);
-							tRuns += 1;
+							callback(this);
+							_runs += 1;
 						}
 						catch (Exception)
 						{
 						}
-						if (tRepeat == - 1)
+						if (_repeat == - 1)
 						{
-							tNextRun = tNextRun.Add(Interval);
+							_nextRun = _nextRun.Add(interval);
 							
 						}
-						else if (tRepeat > 0)
+						else if (_repeat > 0)
 						{
-							tRepeat -= 1;
-							tNextRun = tNextRun.Add(Interval);
+							_repeat -= 1;
+							_nextRun = _nextRun.Add(interval);
 						}
 					}
 				}
@@ -298,7 +141,7 @@ namespace BlackLight
 			
 			/// -----------------------------------------------------------------------------
 			/// Project	 : BlackLight Services
-			/// Class	 : InitiateTimers
+			/// Class	 : TimerController
 			///
 			/// -----------------------------------------------------------------------------
 			/// <summary>
@@ -310,24 +153,85 @@ namespace BlackLight
 			/// 	[Caleb]	6/18/2005	Created
 			/// </history>
 			/// -----------------------------------------------------------------------------
-			public class InitiateTimers
+			public class TimerController
 			{
 				
-				ServicesDeamon tBase;
-				TimerList tTimers;
+				private ServicesDaemon _base;
+				private List<Timer> _timers;
+                private Queue<Timer> _addQueue;
+                private Queue<Timer> _removeQueue;
+
 				public void Begin ()
 				{
-					while (tBase != null && tTimers != null)
+					while (_base != null && _timers != null)
 					{
-						tTimers.CheckTimers();
-						tTimers.DisregaurdTimers();
+                        lock (_addQueue)
+                        {
+                            while (_addQueue.Count > 0)
+                            {
+                                _timers.Add(_addQueue.Dequeue());
+                            }
+                        }
+                        lock (_removeQueue)
+                        {
+                            while (_removeQueue.Count > 0)
+                            {
+                                _timers.Remove(_removeQueue.Dequeue());
+                            }
+                        }
+						checkTimers();
+						disregardTimers();
 						System.Threading.Thread.Sleep(150);
 					}
 				}
-				
-				public InitiateTimers(TimerList cTimers, ServicesDeamon cBase) {
-					tBase = cBase;
-					tTimers = cTimers;
+                public void Dispose()
+                {
+                    try
+                    {
+                        _timers = null;
+                        _addQueue = null;
+                        _removeQueue = null;
+                    }
+                    catch
+                    {
+                        //Supress any errors that happen here.
+                    }
+                }
+				private void checkTimers()
+                {
+                    foreach (Timer timer in _timers)
+                    {
+                        timer.checkTimer();
+                    }
+                    
+                }
+                public void addTimer(Timer timer)
+                {
+                    lock (_addQueue)
+                    {
+                        _addQueue.Enqueue(timer);
+                    }
+                }
+                public void removeTimer(Timer timer)
+                {
+                    lock (_removeQueue)
+                    {
+                        _removeQueue.Enqueue(timer);
+                    }
+                }
+                private void disregardTimers()
+                {
+                    foreach (Timer timer in _timers)
+                    {
+                        if (timer.repeat == 0)
+                            removeTimer(timer);
+                    }
+                }
+				public TimerController(ServicesDaemon daemon) {
+					_base = daemon;
+                    _timers = new List<Timer>();
+                    _addQueue = new Queue<Timer>();
+                    _removeQueue = new Queue<Timer>();
 				}
 			}
 		}
