@@ -76,6 +76,9 @@ namespace BlackLight
 				/// <param name="file">File with full path containing configuration data</param>
 				/// <returns>Method returns a fully parsed configuration</returns>
 				/// <remarks>
+                /// We still need to make sure that comment codes can appear escaped in strings, at
+                /// the moment there is no support for escape sequences in config files. So the results
+                /// of putting comments in strings are unpredictable (Bad)
 				/// </remarks>
 				/// <history>
 				/// 	[Caleb]	12/1/2005	Created
@@ -86,7 +89,6 @@ namespace BlackLight
 					try
 					{
 						string FileData = "";
-						//System.IO.File tFile;
 						System.IO.StreamReader tFileStream;
 						if (System.IO.File.Exists(file))
 						{
@@ -96,7 +98,6 @@ namespace BlackLight
 						ConfigurationReturn ConfigData = new ConfigurationReturn();
 						if (FileData != null)
 						{
-							//MsgBox("here")
 							Regex multilinecomments = new Regex("/\\*[^*]*\\*+([^/*][^*]*\\*+)*/", RegexOptions.Multiline);
 							Regex linecomments = new Regex("//.+$", RegexOptions.Multiline);
 							Regex linecomments2 = new Regex("\\#.+$", RegexOptions.Multiline);
@@ -105,9 +106,6 @@ namespace BlackLight
 							FileData = multilinecomments.Replace(FileData, "");
 							FileData = linecomments.Replace(FileData, "");
 							FileData = linecomments2.Replace(FileData, "");
-							// FileData = Replace(FileData, vbCrLf, vbLf)
-							// FileData = Replace(FileData, vbCr, vbLf)
-							//Dim tInt As Int16 = 0
 							OptionsList CurrentConfigGroup = new OptionsList();
 							Regex blocks = new Regex("(?<name>[\\w\\d-_]*)[\\s]*\\{(?<values>[^\\}]*)\\}\\;", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 							string tMatchString;
@@ -117,6 +115,7 @@ namespace BlackLight
 							{
 								Configuration.Clear();
 								ConfigData.Loaded = false;
+                                
 								ConfigData.Data.Add("File contains comment which does not end");
 								return ConfigData;
 							}

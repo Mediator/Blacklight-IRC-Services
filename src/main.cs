@@ -10,7 +10,7 @@ namespace BlackLight.Services
 {
 	sealed class Services
 	{
-		static ServicesDeamon IRCServices;
+		static ServicesDaemon IRCServices;
 		
 		public static System.IO.StreamWriter tFileIO;
 		static public void Main()
@@ -20,8 +20,8 @@ namespace BlackLight.Services
 				System.IO.File.Delete("debug.txt");
 				tFileIO = System.IO.File.CreateText("debug.txt");
 
-				IRCServices = new ServicesDeamon(BlackLight.Services.Error.Errors.ALL);
-				IRCServices.onOutPut +=new BlackLight.Services.ServicesDeamon.onOutPutEventHandler(IRCServices_onOutPut);
+				IRCServices = new ServicesDaemon(BlackLight.Services.Error.Errors.ALL);
+				IRCServices.onOutPut +=new BlackLight.Services.ServicesDaemon.onOutPutEventHandler(IRCServices_onOutPut);
 				//Dim tDataBase As New DataBase
 				//tDataBase.Test()
 				//Exit Sub

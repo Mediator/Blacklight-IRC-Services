@@ -38,7 +38,7 @@ namespace BlackLight
 					public NickServService MyService;
 					public DataBase NickDB;
 					public DataDriver DataDriver;
-					public NickServ(ServicesDeamon Base) : base(Base) {
+					public NickServ(ServicesDaemon Base) : base(Base) {
 						NickDB = new DataBase();
 						
 						AddRequired("Help.dll");

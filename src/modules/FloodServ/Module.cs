@@ -38,7 +38,7 @@ namespace BlackLight
 					private FloodServService MyService;
 					private DataBase FloodDB;
 					private DataDriver DataDriver;
-					public FloodServ(ServicesDeamon Base) : base(Base) {
+					public FloodServ(ServicesDaemon Base) : base(Base) {
 						FloodDB = new DataBase();
 						
 						AddRequired("Help.dll");

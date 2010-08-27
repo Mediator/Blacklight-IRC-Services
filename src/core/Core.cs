@@ -878,11 +878,6 @@ namespace BlackLight
 						catch (Exception ex)
 						{
 							SendLogMessage("Services", "MyDataIn", BlackLight.Services.Error.Errors.ERROR, "Problem recieving data", "", ex.Message, ex.StackTrace);
-							//Dim tError As IRCReturn
-							//tError = myErrors.UnexpectedError
-							//tError.Ok = False
-							//MyBase.Event_onError(tError)
-							//Exit Sub
 						}
 					}
 					catch (Exception ex)
@@ -1235,12 +1230,12 @@ namespace BlackLight
 						SendLogMessage("Services", "CmdExec", BlackLight.Services.Error.Errors.ERROR, "Problem executing actual command", "", ex.Message, ex.StackTrace);
 						return null;
 					}
-				}
-				
-				
-				
-				#region "Interprations"
-				private delegate bool IRCInterpretor(BlackLight.Services.Nodes.IRCUser Source, string IRCCommand, List<string> arguments);
+                }
+
+
+
+                #region "Interpreters"
+                private delegate bool IRCInterpretor(BlackLight.Services.Nodes.IRCUser Source, string IRCCommand, List<string> arguments);
 				private bool NewServer(BlackLight.Services.Nodes.IRCUser Source, string command, List<string> arguments)
 				{
 					//Viable String Options
@@ -2021,8 +2016,8 @@ namespace BlackLight
                 private bool EOS(BlackLight.Services.Nodes.IRCUser Source, string command, List<string> arguments)
 				{
 					TimeSpan x = new TimeSpan(System.DateTime.Now.Ticks-starttime.Ticks);
-					Console.WriteLine("Recieved EOS At:" + x.Seconds + " " + x.Milliseconds);
-					//SendLogMessage("Services", "EOS", BlackLight.Services.Error.Errors.WARNING, "Recieved EOS At:" + x.Seconds + " " + x.Milliseconds, "", "", "");
+					//Console.WriteLine("Recieved EOS At:" + x.Seconds + " " + x.Milliseconds);
+					SendLogMessage("Services", "EOS", BlackLight.Services.Error.Errors.DEBUG, "Recieved EOS At:" + x.Seconds + " " + x.Milliseconds, "", "", "");
 					return true;;
 				}
                 private bool PrivMsg(BlackLight.Services.Nodes.IRCUser Source, string command, List<string> arguments)
@@ -2089,12 +2084,9 @@ namespace BlackLight
 							if (arguments.Count == cmd.parameterCount())
 							{
 								BlackLight.Services.Nodes.Client tUser = ((BlackLight.Services.Nodes.Client) Source);
-								//  Dim tDest As Client = LocalClients(tMatch.Groups("RECEIVER").Value)
                                 string[] tMsgArray = arguments[cmd.getParameterIndex("MESSAGE")].Split(' ');
-								// If Not tDest Is Nothing Then
 								if (onNoticeEvent != null)
                                     onNoticeEvent(tUser, arguments[cmd.getParameterIndex("RECEIVER")], tMsgArray);
-								//End If
 								tUser = null;
 							}
 							else
@@ -2120,12 +2112,7 @@ namespace BlackLight
                         Command cmd = MyIRCd.Commands["PINGLOCALRECEIVE"];
 						if (arguments.Count == cmd.parameterCount())
 						{
-							//SendData(Regex.Replace(MyIRCd.SendCommands("PINGSEND"), "(%SERVERNAME%)", tMatch.Groups("SERVERNAME").Value.Trim))
-							//  RaiseEvent onCmd(String.Format(MyIRCd.SendCommands("PINGSEND"), MyName, tMatch.Groups("SERVERNAME").Value.Trim))
-							// SendData(String.Format(MyIRCd.SendCommands("PINGSEND"), tMatch.Groups("SERVERNAME").Value.Trim))
                             Commands.Send_Ping(MyName, arguments[cmd.getParameterIndex("REMOTESERVERNAME")]);
-							//SendData(String.Format(MyIRCd.SendCommands("PINGSEND"), MyName, tMatch.Groups("SERVERNAME").Value.Trim))
-							//SendData("PING :" & MyName)
 							SendLogMessage("Services", "Ping", BlackLight.Services.Error.Errors.DEBUG, "PoooING PooooONG", "", "", "");
 							if (onPingEvent != null)
 								onPingEvent();
@@ -2166,7 +2153,6 @@ namespace BlackLight
 							{
 								if (onQuitEvent != null)
                                     onQuitEvent(Source.Name, arguments[cmd.getParameterIndex("REASON")]);
-								// RaiseEvent onDebug("Raised Event")
 								Source.Dispose();
 							}
 							else
@@ -2200,7 +2186,6 @@ namespace BlackLight
 								{
 									if (onSVSKillEvent != null)
                                         onSVSKillEvent(tUser.Name, arguments[cmd.getParameterIndex("REASON")]);
-									// RaiseEvent onDebug("Raised Event")
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2236,7 +2221,6 @@ namespace BlackLight
 								{
 									if (onKillEvent != null)
                                         onKillEvent(tUser.Name, arguments[cmd.getParameterIndex("REASON")]);
-									// RaiseEvent onDebug("Raised Event")
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2269,7 +2253,6 @@ namespace BlackLight
 							{
 								if (onSQUITEvent != null)
                                     onSQUITEvent(arguments[cmd.getParameterIndex("SERVERNAME")], arguments[cmd.getParameterIndex("REASON")]);
-								// RaiseEvent onDebug("Raised Event")
 								foreach (BlackLight.Services.Nodes.Server tServer in MyHost.GetAllServers())
 								{
                                     if (tServer.Name == arguments[cmd.getParameterIndex("SERVERNAME")])
@@ -2534,132 +2517,11 @@ namespace BlackLight
 				
 				#endregion
 				
-				//#Region "MIRC Colors"
-				//    Public Function ColorCode(ByVal zBuffer As String, ByVal zString As String) As RTF
-				//        Try
-				//            Dim tBuffer As String
-				//            tBuffer = "{\rtf1\ansi {\colortbl;"
-				//            tBuffer &= "\red255\green255\blue255;" '0
-				//            tBuffer &= "\red0\green0\blue0;" '1
-				//            tBuffer &= "\red0\green0\blue128;" '2
-				//            tBuffer &= "\red0\green128\blue0;" '3
-				//            tBuffer &= "\red255\green0\blue0;" '4
-				//            tBuffer &= "\red128\green0\blue0;" '5
-				//            tBuffer &= "\red128\green0\blue128;" '6
-				//            tBuffer &= "\red255\green128\blue0;" '7
-				//            tBuffer &= "\red255\green255\blue0;" '8
-				//            tBuffer &= "\red0\green255\blue0;" '9
-				//            tBuffer &= "\red0\green128\blue128;" '10
-				//            tBuffer &= "\red0\green255\blue255;" '11
-				//            tBuffer &= "\red0\green0\blue255;" '12
-				//            tBuffer &= "\red255\green0\blue255;" '13
-				//            tBuffer &= "\red125\green128\blue125;" '14
-				//            tBuffer &= "\red200\green200\blue200;}" '15
-				
-				
-				//            Dim tTrans As String
-				//            zString = Replace(zString, "\", "\\")
-				//            zString = Replace(zString, vbCrLf, "\line ")
-				//            If Convert.ToBoolean(InStr(zString, Chr(3))) Or Convert.ToBoolean(InStr(zString, Chr(2))) Then
-				//                Dim isbold As Boolean
-				//                Dim iscol As Boolean
-				//                Dim isunder As Boolean
-				//                Dim x As Int16
-				
-				//                Dim tArray As Char() = zString.ToCharArray
-				//                For x = 0 To Convert.ToInt16(UBound(tArray))
-				//                    Select Case tArray(x)
-				//                        Case Chr(2)
-				//                            If Not isbold Then
-				//                                tTrans &= "{\b "
-				//                                isbold = True
-				//                            Else
-				//                                tTrans &= "\b0 }"
-				//                                isbold = False
-				//                            End If
-				//                        Case Chr(3)
-				//                            If Not iscol Then
-				//                                If IsNumeric(tArray(x + 1)) And IsNumeric(tArray(x + 2)) Then
-				//                                    tTrans &= "{\fl\cf" & Convert.ToInt16(Convert.ToString(tArray(x + 1)) & Convert.ToString(tArray(x + 2))) + 1 & " "
-				//                                    iscol = True
-				//                                    tArray(x + 1) = Chr(4)
-				//                                    tArray(x + 2) = Chr(4)
-				//                                ElseIf IsNumeric(tArray(x + 1)) Then
-				//                                    tTrans &= "{\fl\cf" & Convert.ToInt16(Convert.ToString(tArray(x + 1))) + 1 & " "
-				//                                    iscol = True
-				//                                    tArray(x + 1) = Chr(4)
-				//                                End If
-				//                                If tArray(x + 3) = Chr(44) Then
-				//                                    tArray(x + 3) = Chr(4)
-				//                                    If IsNumeric(tArray(x + 4)) And IsNumeric(tArray(x + 5)) Then
-				//                                        tTrans &= "\highlight" & Convert.ToInt16(Convert.ToString(tArray(x + 4)) & Convert.ToString(tArray(x + 5))) + 1 & " "
-				//                                        tArray(x + 4) = Chr(4)
-				//                                        tArray(x + 5) = Chr(4)
-				//                                    ElseIf IsNumeric(tArray(x + 4)) Then
-				//                                        tTrans &= "\highlight" & Convert.ToInt16(Convert.ToString(tArray(x + 4))) + 1 & " "
-				//                                        tArray(x + 4) = Chr(4)
-				//                                    End If
-				//                                ElseIf tArray(x + 2) = Chr(44) Then
-				//                                    tArray(x + 2) = Chr(4)
-				//                                    If IsNumeric(tArray(x + 3)) And IsNumeric(tArray(x + 4)) Then
-				//                                        tTrans &= "\highlight" & Convert.ToInt16(Convert.ToString(tArray(x + 3)) & Convert.ToString(tArray(x + 4))) + 1 & " "
-				//                                        tArray(x + 3) = Chr(4)
-				//                                        tArray(x + 4) = Chr(4)
-				//                                    ElseIf IsNumeric(tArray(x + 3)) Then
-				//                                        tTrans &= "\highlight" & Convert.ToInt16(Convert.ToString(tArray(x + 3))) + 1 & " "
-				//                                        tArray(x + 3) = Chr(4)
-				//                                    End If
-				//                                End If
-				//                            Else
-				//                                tTrans &= "\cf \highlight }"
-				//                                iscol = False
-				//                            End If
-				//                        Case Chr(4)
-				//                        Case Chr(15)
-				//                            If isbold = True Then
-				//                                tTrans &= "\b0 }"
-				//                                isbold = False
-				//                            End If
-				//                            If iscol = True Then
-				//                                tTrans &= "\cf }"
-				//                                iscol = False
-				//                            End If
-				//                        Case Else
-				//                            tTrans &= tArray(x)
-				//                    End Select
-				//                Next x
-				//                If isbold = True Then
-				//                    tTrans &= "\b0 }"
-				//                    isbold = False
-				//                End If
-				//                If iscol = True Then
-				//                    tTrans &= "\cf }"
-				//                    iscol = False
-				//                End If
-				//            Else : tTrans = zString
-				//            End If
-				//            zBuffer &= "{" & tTrans & "}" & vbCrLf
-				//            tBuffer &= zBuffer
-				//            Dim tStruct As RTF
-				//            tStruct.tBuffer = tBuffer
-				//            tStruct.zBuffer = zBuffer
-				//            Return tStruct
-				//        Catch
-				//            MsgBox("Color Parsing Error")
-				//        End Try
-				//    End Function
-				//    Public Structure RTF
-				//        Dim zBuffer As String
-				//        Dim tBuffer As String
-				//    End Structure
-				//#End Region
-				
 				#region "IRCd Stuffy"
 				public void IRCd_NoFile (string file)
 				{
 					try
 					{
-						//MessageBox.Show("Unable to find file: " + file);
 						SendLogMessage("Services", "IRCd_NoFile", BlackLight.Services.Error.Errors.ERROR, "Unable to find IRCd file", file, "", "");
 					}
 					catch (Exception ex)
@@ -2671,7 +2533,6 @@ namespace BlackLight
 				{
 					try
 					{
-						//MessageBox.Show("Cannot parse protocol: " + Message);
 						SendLogMessage("Services", "IRCd_ParseError", BlackLight.Services.Error.Errors.ERROR, "Cannot parse protocol", Message, "", "");
 					}
 					catch (Exception ex)

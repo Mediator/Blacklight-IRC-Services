@@ -32,7 +32,7 @@ namespace BlackLight
 		/// 	[Caleb]	6/18/2005	Created
 		/// </history>
 		/// -----------------------------------------------------------------------------
-		public class ServicesDeamon
+		public class ServicesDaemon
 		{
 			/// -----------------------------------------------------------------------------
 			/// <summary>
@@ -77,9 +77,8 @@ namespace BlackLight
 			/// 	[Caleb]	6/18/2005	Created
 			/// </history>
 			/// -----------------------------------------------------------------------------
-			public BlackLight.Services.Timers.TimerList Timers;
-			private BlackLight.Services.Timers.InitiateTimers TimerSystem;
-			private Thread TimerChecker;
+			public BlackLight.Services.Timers.TimerController timerController;
+			private Thread _timerChecker;
 			public delegate void onOutPutEventHandler(string OutPut);
 			private onOutPutEventHandler onOutPutEvent;
 			
@@ -102,7 +101,7 @@ namespace BlackLight
 					onOutPutEvent(tString);
 			}
 			public BlackLight.Services.Error.Errors LogType;
-			public ServicesDeamon(BlackLight.Services.Error.Errors LogType) {
+			public ServicesDaemon(BlackLight.Services.Error.Errors LogType) {
 				this.LogType = LogType;
 				Core = new ServicesCore();
 				Core.OnConnect += new BlackLight.Services.Core.IRC.OnConnectEventHandler(Core_onConnect);
@@ -180,7 +179,7 @@ AddText("Config: " + tReturn + "\r\n");
 						}
 						else
 						{
-							Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: remote-host", "", "", "");
+							Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: remote-host", "", "", "");
 							return;
 						}
 						if (myConfig.ContainsKey("remote-port"))
@@ -189,21 +188,24 @@ AddText("Config: " + tReturn + "\r\n");
 						}
 						else
 						{
-							Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: remote-port", "", "", "");
+							Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: remote-port", "", "", "");
 							return;
 						}
 					}
 					else
 					{
-						Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Failed to find services configuration block", "", "", "");
+						Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Failed to find services configuration block", "", "", "");
 						return;
 					}
-                    Core.MyIRCd.LoadProtocol();
+                    if (!Core.MyIRCd.LoadProtocol())
+                    {
+                        AddText("Failed to load Protocol\r\n");
+                       // return;
+                    }
                     //Timer Stuff
-                    Timers = new TimerList(this);
-                    TimerSystem = new BlackLight.Services.Timers.InitiateTimers(Timers, this);
-                    TimerChecker = new System.Threading.Thread(new System.Threading.ThreadStart(TimerSystem.Begin));
-                    TimerChecker.Start();
+                    timerController = new BlackLight.Services.Timers.TimerController(this);
+                    _timerChecker = new System.Threading.Thread(new System.Threading.ThreadStart(timerController.Begin));
+                    _timerChecker.Start();
                     //End Timer Stuff
 					
 					ArrayList tModules = new ArrayList();
@@ -275,12 +277,12 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					
 					if (remotehost == "")
 					{
-						Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", "", "");
+						Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", "", "");
 						return;
 					}
 					if (remoteport == "")
 					{
-						Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", "", "");
+						Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", "", "");
 						return;
 					}
 					else
@@ -291,7 +293,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 						}
 						catch (Exception ex)
 						{
-							Core_LogMessage("ServicesDeamon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", ex.Message, ex.StackTrace);
+							Core_LogMessage("ServicesDaemon", "Begin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: remote-port", "", ex.Message, ex.StackTrace);
 							return;
 						}
 					}
@@ -322,7 +324,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					}
 					else
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: connect-pass", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: connect-pass", "", "", "");
 						return;
 					}
 					if (myConfig.ContainsKey("server-name"))
@@ -331,7 +333,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					}
 					else
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: server-name", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: server-name", "", "", "");
 						return;
 					}
 					
@@ -341,7 +343,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					}
 					else
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: server-desc", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Missing directive: server-desc", "", "", "");
 						return;
 					}
 					
@@ -354,19 +356,19 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					
 					if (connectpass == "")
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: connect-pass", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: connect-pass", "", "", "");
 						return;
 					}
 					
 					if (servername == "")
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: server-name", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: server-name", "", "", "");
 						return;
 					}
 					
 					if (serverdesc == "")
 					{
-						Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: server-desc", "", "", "");
+						Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Directive contains invalid data: server-desc", "", "", "");
 						return;
 					}
 					
@@ -411,7 +413,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("connect");
 				}
 			}
@@ -434,19 +436,15 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 						}
 						ModuleManage = null;
 					}
-					if (Timers != null)
+					if (timerController != null)
 					{
-						Timers.Clear();
-						Timers = null;
+                        timerController.Dispose();
+                        timerController = null;
 					}
-					if (TimerChecker != null)
+					if (_timerChecker != null)
 					{
-						TimerChecker.Abort();
-						TimerChecker = null;
-					}
-					if (TimerSystem != null)
-					{
-						TimerSystem = null;
+						_timerChecker.Abort();
+						_timerChecker = null;
 					}
 					if (ConfigManager != null&& ConfigManager.Configuration != null)
 					{
@@ -457,11 +455,11 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 					{
 						ConfigManager = null;
 					}
-					Core_LogMessage("ServicesDeamon", "TerminateCore()", BlackLight.Services.Error.Errors.DEBUG, "Core Terminated", "", "", "");
+					Core_LogMessage("ServicesDaemon", "TerminateCore()", BlackLight.Services.Error.Errors.DEBUG, "Core Terminated", "", "", "");
 				}
 				else
 				{
-					Core_LogMessage("ServicesDeamon", "TerminateCore()", BlackLight.Services.Error.Errors.DEBUG, "Core already terminated", "", "", "");
+					Core_LogMessage("ServicesDaemon", "TerminateCore()", BlackLight.Services.Error.Errors.DEBUG, "Core already terminated", "", "", "");
 				}
 			}
 			
@@ -476,7 +474,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onClientConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onClientConnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: ClientConnect");
 				}
 			}
@@ -493,7 +491,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onServer()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onServer()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: OnServer");
 				}
 			}
@@ -509,7 +507,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onQuit()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onQuit()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: onQuit");
 				}
 			}
@@ -528,7 +526,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onNick()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onNick()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: OnNick");
 				}
 			}
@@ -545,7 +543,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onJoin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onJoin()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: OnJoin");
 				}
 			}
@@ -559,7 +557,7 @@ AddText("DataDriver: " + DataDriver.Name + "\r\n");
 				}
 				catch (Exception ex)
 				{
-					Core_LogMessage("ServicesDeamon", "IRCService_onDisconnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
+					Core_LogMessage("ServicesDaemon", "IRCService_onDisconnect()", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.ERROR, "Exception", "", ex.Message, ex.StackTrace);
 					//MessageBox.Show("Form1 Error: OnDisconnect");
 				}
 			}

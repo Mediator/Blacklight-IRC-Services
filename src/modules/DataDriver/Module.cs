@@ -25,7 +25,7 @@ namespace BlackLight
 				{
 					
 					
-					public XMLDB(ServicesDeamon Base) : base(Base) {
+					public XMLDB(ServicesDaemon Base) : base(Base) {
 					}
 					//Public Overrides Sub ModInit()
 					

@@ -109,14 +109,6 @@ namespace BlackLight
 					base.Channels.Add(MyCore.Channels[tChannelIndex]);
 					tChannelIndex = 0;
 				}
-				//Public Property Nick() As String
-				//   Get
-				//       Return MyBase.Name
-				//   End Get
-				//   Set(ByVal Value As String)
-				//       MyBase.Name = Value
-				//   End Set
-				//End Property
 				protected override void Dispose (bool disposing)
 				{
 					

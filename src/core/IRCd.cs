@@ -150,7 +150,7 @@ namespace BlackLight
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public void LoadProtocol ()
+				public bool LoadProtocol ()
 				{
 					try
 					{
@@ -158,22 +158,29 @@ namespace BlackLight
 						
 						if (ProtocolFile.Length > 0)
 						{
-							if (ParseProtocol(ProtocolFile) == false)
-							{
-								if (CannotParseProtocolEvent != null)
-									CannotParseProtocolEvent("Parse Protocol Error");
-							}
+                            if (ParseProtocol(ProtocolFile) == false)
+                            {
+                                if (CannotParseProtocolEvent != null)
+                                    CannotParseProtocolEvent("Parse Protocol Error");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
 						}
 						else
 						{
 							if (CannotParseProtocolEvent != null)
 								CannotParseProtocolEvent("Protocol Not Set, Protocol most likely Empty");
+                            return false;
 						}
 					}
 					catch (Exception ex)
 					{
 						MyCore.SendLogMessage("IRCd", "LoadPRotocol", BlackLight.Services.Error.Errors.DEBUG | BlackLight.Services.Error.Errors.FATAL, "Problem with protocol load", "", ex.Message, ex.StackTrace);
-					}
+                        return false;
+                    }
 				}
 				private string ProtocolFileGet(string filename)
 				{

@@ -343,17 +343,10 @@ namespace BlackLight
 				{
 					try
 					{
-						//If amConnected = True Then
 						SendLogMessage("IRC", "Disconnect", BlackLight.Services.Error.Errors.DEBUG, "Disconnecting", "", "", "");
 						m_tmpSocket.Shutdown(SocketShutdown.Both);
 						if (onDisconnectEvent != null)
 							onDisconnectEvent();
-						//Else
-						//    Dim tError As IRCReturn
-						//    tError = myErrors.SckNotInUse
-						//    tError.Ok = False
-						//     RaiseEvent onError(tError)
-						// End If
 					}
 					catch (Exception ex)
 					{
@@ -571,7 +564,7 @@ namespace BlackLight
 							}
 							catch (Exception ex)
 							{
-								SendLogMessage("IRC", "ArrayToLing", BlackLight.Services.Error.Errors.ERROR, "Problem converting an array to a line", "", ex.Message, ex.StackTrace);
+								SendLogMessage("IRC", "ArrayToLine", BlackLight.Services.Error.Errors.ERROR, "Problem converting an array to a line", "", ex.Message, ex.StackTrace);
 							return "";
 							}
 						}
@@ -650,33 +643,6 @@ namespace BlackLight
 							if (onSendCompleteEvent != null)
 								onSendCompleteEvent(DataSize);
 						}
-						
-						/// -----------------------------------------------------------------------------
-						/// <summary>
-						/// Latacy method used to check if the array is empty
-						/// </summary>
-						/// <param name="tArray"></param>
-						/// <returns></returns>
-						/// <remarks>
-						/// </remarks>
-						/// <history>
-						/// 	[Caleb]	6/18/2005	Created
-						/// </history>
-						/// -----------------------------------------------------------------------------
-						/*public bool isEmpty(Array tArray)
-						{
-							try
-							{
-								if (tArray.Length > 0)
-								{
-									return false;
-								}
-							}
-							catch
-							{
-								return true;
-							}
-						}*/
 						
 					}
 				}

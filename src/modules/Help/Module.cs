@@ -41,7 +41,7 @@ namespace BlackLight
 				{
 					
 					public ResponseList HelpResponses;
-					public Help(ServicesDeamon Base) : base(Base) {
+					public Help(ServicesDaemon Base) : base(Base) {
 					}
 					public override void ModUnload ()
 					{

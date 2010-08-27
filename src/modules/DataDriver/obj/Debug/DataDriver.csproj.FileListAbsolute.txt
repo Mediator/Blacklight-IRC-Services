@@ -1,0 +1,5 @@
+K:\BlackLight\Services\src\modules\DataDriver\obj\Debug\ResolveAssemblyReference.cache
+K:\BlackLight\Services\Modules\DataDriver.dll
+K:\BlackLight\Services\Modules\DataDriver.pdb
+K:\BlackLight\Services\src\modules\DataDriver\obj\Debug\DataDriver.dll
+K:\BlackLight\Services\src\modules\DataDriver\obj\Debug\DataDriver.pdb

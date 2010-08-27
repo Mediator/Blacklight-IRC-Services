@@ -936,7 +936,7 @@ int IList.Add(object o) { throw new NotImplementedException(); }
 					public abstract class DataDriver : BlackLight.Services.Modules.BlackLightModule
 					{
 						
-						public DataDriver(ServicesDeamon tBase) : base(tBase) {
+						public DataDriver(ServicesDaemon tBase) : base(tBase) {
 						}
 						public abstract bool DBExists(string filename);
 						public abstract DataBase LoadDB(string filename);

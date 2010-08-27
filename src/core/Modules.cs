@@ -30,7 +30,7 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public abstract class BlackLightModule
 			{
-				public ServicesDeamon MyBase;
+				public ServicesDaemon MyBase;
 				private bool Suspended;
 				private string tFileName;
 				//Public MustOverride Sub ModInit()
@@ -170,7 +170,7 @@ namespace BlackLight
 						tFileName = value;
 					}
 				}
-				public BlackLightModule(ServicesDeamon tBase) {
+				public BlackLightModule(ServicesDaemon tBase) {
 					tFileName = "";
 					Requires = new System.Collections.Specialized.StringCollection();
 					
@@ -210,7 +210,7 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public class ModuleManagement
 			{
-				public ServicesDeamon Base;
+				public ServicesDaemon Base;
 				/// -----------------------------------------------------------------------------
 				/// <summary>
 				/// List of functioning and loaded modules
@@ -294,7 +294,7 @@ namespace BlackLight
 										//Well lets check if its a special module, currently only datadrivers
 										
 										//Ooooo isn't this sexy
-										tModule = ((BlackLightModule) tType.GetConstructor(new Type[] { typeof(ServicesDeamon) }).Invoke(new object[] {Base}));
+										tModule = ((BlackLightModule) tType.GetConstructor(new Type[] { typeof(ServicesDaemon) }).Invoke(new object[] {Base}));
 										
 										//Or not :'(
 										if (tModule == null)
@@ -574,7 +574,7 @@ namespace BlackLight
 									//Well lets check if its a special module, currently only datadrivers
 									
 									//Ooooo isn't this sexy
-									tModule = ((BlackLightModule) tType.GetConstructor(new Type[] { typeof(ServicesDeamon) }).Invoke(new object[] {Base}));
+									tModule = ((BlackLightModule) tType.GetConstructor(new Type[] { typeof(ServicesDaemon) }).Invoke(new object[] {Base}));
 									
 									//Or not :'(
 									if (tModule == null)
@@ -634,7 +634,7 @@ namespace BlackLight
 					//TODO
 				}
 				
-				public ModuleManagement(ServicesDeamon tBase) {
+				public ModuleManagement(ServicesDaemon tBase) {
 					Modules = new ModuleList();
 					DataDriver = "";
 					
