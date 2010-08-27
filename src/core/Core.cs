@@ -717,7 +717,6 @@ namespace BlackLight
 					
 					try
 					{
-						MyIRCd.LoadProtocol();
 						LoadCmds();
 						Commands = new BlackLight.Services.IRCProtocol.Commands(this, MyIRCd);
 					}
