@@ -1,5 +1,0 @@
-K:\BlackLight\Services\src\modules\NickServ\obj\Debug\ResolveAssemblyReference.cache
-K:\BlackLight\Services\Modules\NickServ.dll
-K:\BlackLight\Services\Modules\NickServ.pdb
-K:\BlackLight\Services\src\modules\NickServ\obj\Debug\NickServ.dll
-K:\BlackLight\Services\src\modules\NickServ\obj\Debug\NickServ.pdb

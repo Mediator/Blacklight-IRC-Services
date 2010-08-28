@@ -10,3 +10,6 @@
 *.user
 *.suo
 *.pdb
+*.manifest
+services.conf
+*.FileListAbsolute.txt
