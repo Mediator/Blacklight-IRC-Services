@@ -29,21 +29,38 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public abstract class IRCUser : IDisposable
 			{
-				public string Name;
-				public ServicesCore MyCore;
-				public int ID;
+				protected string p_name;
+				protected ServicesCore p_core;
+                protected int p_id;
+
+                public string name
+                {
+                    get
+                    {
+                        return p_name;
+                    }
+                    set
+                    {
+                       p_name = value;
+                    }
+                }
+                public int id
+                {
+                    get
+                    {
+                        return p_id;
+                    }
+                }
 				public void Dispose ()
 				{
 					Dispose(true);
 					GC.SuppressFinalize(this);
 				}
 				protected abstract void Dispose (bool disposing);
-				public IRCUser(string tName, ServicesCore tBase) {
-					Name = "";
-					ID = - Guid.NewGuid().ToString().GetHashCode();
-					
-					Name = tName;
-					MyCore = tBase;
+				public IRCUser(string name, ServicesCore core) {
+					p_id = - Guid.NewGuid().ToString().GetHashCode();	
+					p_name = name;
+					p_core = core;
 				}
 			}
 			public class TKL
@@ -68,12 +85,46 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public class Server : IRCUser
 			{
-				public string Description;
-				public int Numeric;
-				public ServiceList Users;
-				public ServiceList Leafs;
+				private string p_description;
+				private int p_numeric;
+				public ServiceList users;
+				public ServiceList leafs;
 				//Public TKLs As TKLList
-				public Server HostServer;
+				private Server p_hostServer;
+                public string description
+                {
+                    get
+                    {
+                        return p_description;
+                    }
+                    set
+                    {
+                        p_description = value;
+                    }
+                }
+                public int numeric
+                {
+                    get
+                    {
+                        return p_numeric;
+                    }
+                    set
+                    {
+                        p_numeric = value;
+                    }
+                }
+                public Server hostServer
+                {
+                    get
+                    {
+                        return p_hostServer;
+                    }
+                    set
+                    {
+                        p_hostServer = value;
+                    }
+                }
+              
 				/// -----------------------------------------------------------------------------
 				/// <summary>
 				/// Returns a list of all servers linked to this instance
@@ -89,33 +140,33 @@ namespace BlackLight
 				{
 					try
 					{
-						ServiceList n = new ServiceList();
-						foreach (Server cptr in Leafs)
+						ServiceList sl = new ServiceList();
+						foreach (Server leaf in leafs)
 						{
-							n.Add(cptr);
-							cptr.GetAllServers(n);
+							sl.Add(leaf);
+							leaf.GetAllServers(sl);
 						}
-						return n;
+						return sl;
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("Server", "GetAllServers", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("Server", "GetAllServers", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					return null;
 					}
 				}
-				private void GetAllServers (ServiceList n)
+				private void GetAllServers (ServiceList sl)
 				{
 					try
 					{
-						foreach (Server cptr in Leafs)
+						foreach (Server leaf in leafs)
 						{
-							n.Add(cptr);
-							cptr.GetAllServers(n);
+							sl.Add(leaf);
+							leaf.GetAllServers(sl);
 						}
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("Server", "GetAllServers(2)", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("Server", "GetAllServers(2)", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
 				
@@ -124,36 +175,36 @@ namespace BlackLight
 				{
 					Server tLeaf;
 					Client tUser;
-					while (Leafs.Count > 0)
+					while (leafs.Count > 0)
 					{
-						tLeaf = ((Server) Leafs[0]);
+						tLeaf = ((Server) leafs[0]);
 						tLeaf.Dispose();
 					}
-					while (Users.Count > 0)
+					while (users.Count > 0)
 					{
-						tUser = ((Client) Users[0]);
-						MyCore.Raise_Quit(tUser.Nick, "Lost in netsplit");
+						tUser = ((Client) users[0]);
+						p_core.Raise_Quit(tUser.nick, "Lost in netsplit");
 						tUser.Dispose();
 					}
 					tLeaf = null;
 					tUser = null;
-					Users = null;
-					if (HostServer != null&& HostServer.Leafs.Contains(this))
+					users = null;
+					if (p_hostServer != null && p_hostServer.leafs.Contains(this))
 					{
-						HostServer.Leafs.Remove(this);
-						HostServer = null;
+						p_hostServer.leafs.Remove(this);
+						p_hostServer = null;
 					}
 					else
 					{
-						MyCore.SendLogMessage("Server", "Dispose", BlackLight.Services.Error.Errors.DEBUG, "Host server is nothing or does not contain me", "", "", "");
+						p_core.SendLogMessage("Server", "Dispose", BlackLight.Services.Error.Errors.DEBUG, "Host server is nothing or does not contain me", "", "", "");
 					}
-					Leafs = null;
-					Description = null;
-					Name = null;
+					leafs = null;
+					p_description = null;
+					p_name = null;
 				}
-				public Server(string tName, ServicesCore tBase) : base(tName, tBase) {
-					Users = new ServiceList();
-					Leafs = new ServiceList();
+				public Server(string name, ServicesCore core) : base(name, core) {
+					users = new ServiceList();
+					leafs = new ServiceList();
 					
 				}
 			}
@@ -176,15 +227,15 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public class Client : IRCUser
 			{
-				public string Host;
-				public string VHost;
-				public string Username;
-				public string Realname;
-				public Server HostServer;
-				public string IdentNick;
-				public string Modes;
-				public ChannelsList Channels;
-				public int Time;
+				protected string p_host;
+                protected string p_vHost;
+                protected string p_username;
+                protected string p_realname;
+                protected Server p_hostServer;
+                protected string p_identNick;
+                protected string p_modes;
+                protected ChannelsList p_channels;
+                protected int p_time;
 				/// -----------------------------------------------------------------------------
 				/// <summary>
 				/// Returns the specific clients nickname
@@ -196,109 +247,203 @@ namespace BlackLight
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public string Nick
+				public string nick
 				{
 					get{
-						return base.Name;
+						return base.p_name;
 					}
 					set
 					{
-						base.Name = value;
+						base.p_name = value;
 					}
 				}
+                public string host
+                {
+                    get
+                    {
+                        return this.p_host;
+                    }
+                    set
+                    {
+                        this.p_host = value;
+                    }
+                }
+                public string vHost
+                {
+                    get
+                    {
+                        return this.p_vHost;
+                    }
+                    set
+                    {
+                        this.p_vHost = value;
+                    }
+                }
+                public string username
+                {
+                    get
+                    {
+                        return this.p_username;
+                    }
+                    set
+                    {
+                        this.p_username = value;
+                    }
+                }
+                public string realname
+                {
+                    get
+                    {
+                        return this.p_realname;
+                    }
+                    set
+                    {
+                        this.p_realname = value;
+                    }
+                }
+                public Server hostServer
+                {
+                    get
+                    {
+                        return this.p_hostServer;
+                    }
+                    set
+                    {
+                        this.p_hostServer = value;
+                    }
+                }
+                public string identNick
+                {
+                    get
+                    {
+                        return this.p_identNick;
+                    }
+                    set
+                    {
+                        this.p_identNick = value;
+                    }
+                }
+                public string modes
+                {
+                    get
+                    {
+                        return this.p_modes;
+                    }
+                    set
+                    {
+                        this.p_modes = value;
+                    }
+                }
+                public ChannelsList channels
+                {
+                    get
+                    {
+                        return this.p_channels;
+                    }
+                }
+                public int time
+                {
+                    get
+                    {
+                        return this.p_time;
+                    }
+                    set
+                    {
+                        this.p_time = value;
+                    }
+                }
 				protected override void Dispose (bool disposing)
 				{
 					try
 					{
 						//Deal with the channels
-						while (Channels.Count > 0)
+						while (p_channels.Count > 0)
 						{
-							if (Channels[0].ChannelMembers.Count == 1 && Channels[0].ChannelMembers.Contains(this))
+                            if (p_channels[0].channelMembers.Count == 1 && p_channels[0].channelMembers.Contains(this))
 							{
-								MyCore.Channels.Remove(Channels[0]);
+                                p_core.Channels.Remove(p_channels[0]);
 							}
 							else
 							{
-								MyCore.Channels[Channels[0].Name].ChannelMembers.Remove(Channels[0].ChannelMembers[this]);
+                                p_core.Channels[p_channels[0].name].channelMembers.Remove(p_channels[0].channelMembers[this]);
 							}
-							Channels.RemoveAt(0);
+							p_channels.RemoveAt(0);
 						}
 						//Remove ourselves from teh list0rz
-						Host = null;
-						VHost = null;
-						Username = null;
-						Realname = null;
-						Modes = null;
-						Channels = null;
-						if (HostServer != null&& HostServer.Users.Contains(this))
+						p_host = null;
+						p_vHost = null;
+						p_username = null;
+						p_realname = null;
+						p_modes = null;
+						p_channels = null;
+						if (p_hostServer != null && p_hostServer.users.Contains(this))
 						{
-							HostServer.Users.Remove(this);
-							HostServer = null;
+							p_hostServer.users.Remove(this);
+							p_hostServer = null;
 						}
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("Client", "Dispose", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("Client", "Dispose", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
 				/// Will parse a mode string received from the server and set the proper variables
 				/// </summary>
-				/// <param name="ModeString"></param>
+				/// <param name="modeString"></param>
 				/// <remarks>
 				/// </remarks>
 				/// <history>
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public void ParseModeSet (string ModeString)
+				public void ParseModeSet (string modeString)
 				{
 					try
 					{
-						string[] tModeSet = ModeString.Split(' ');
-						//short LastModeParamIndex = 1;
-						bool Adding = true; //Assume we are adding :\
-						foreach (char tChar in tModeSet[0])
+                        string[] modeSet = modeString.Split(' ');
+						bool adding = true; //Assume we are adding :\
+                        foreach (char tChar in modeSet[0])
 						{
 							if (tChar == '-')
 							{
-								Adding = false;
+                                adding = false;
 							}
 							else if (tChar == '+')
 							{
-								Adding = true;
+                                adding = true;
 							}
 							else
 							{
 								//Stuffy here gay
-								if (Adding == true)
+								if (adding == true)
 								{
-									if (Modes.IndexOf(tChar) < 0)
+									if (p_modes.IndexOf(tChar) < 0)
 									{
-										Modes += tChar;
+										p_modes += tChar;
 									}
 								}
 								else
 								{
-									Modes = Modes.Replace(tChar.ToString(), "");
+									p_modes = p_modes.Replace(tChar.ToString(), "");
 								}
 							}
 						}
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("Client", "ParseModeSet", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("Client", "ParseModeSet", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
-				public Client(string tName, ServicesCore tBase) : base(tName, tBase) {
-					Host = "";
-					VHost = "";
-					Username = "";
-					Realname = "";
-					IdentNick = "";
-					Modes = "";
-					Channels = new ChannelsList();
+				public Client(string name, ServicesCore core) : base(name, core) {
+					p_host = "";
+					p_vHost = "";
+					p_username = "";
+					p_realname = "";
+					p_identNick = "";
+					p_modes = "";
+					p_channels = new ChannelsList();
 					
 				}
 			}
@@ -388,7 +533,7 @@ namespace BlackLight
 				{
 					for (int idx = 0; idx <= a.Count - 1; idx++)
 					{
-						if (((IRCUser)(a[idx])).Name.ToLower() == name.ToLower())
+						if (((IRCUser)(a[idx])).name.ToLower() == name.ToLower())
 						{
 							return idx;
 						}
@@ -555,7 +700,7 @@ namespace BlackLight
 				{
 					for (int idx = 0; idx <= a.Count - 1; idx++)
 					{
-						if (((ChanMember)(a[idx])).User == tUser)
+						if (((ChanMember)(a[idx])).user == tUser)
 						{
 							return idx;
 						}
@@ -566,7 +711,7 @@ namespace BlackLight
 				{
 					for (int idx = 0; idx <= a.Count - 1; idx++)
 					{
-						if (((ChanMember)(a[idx])).User.Name.ToLower() == name.ToLower())
+						if (((ChanMember)(a[idx])).user.name.ToLower() == name.ToLower())
 						{
 							return idx;
 						}
@@ -718,7 +863,7 @@ namespace BlackLight
 				{
 					for (int idx = 0; idx <= a.Count - 1; idx++)
 					{
-						if (((Channel)(a[idx])).Name.ToLower() == name.ToLower())
+						if (((Channel)(a[idx])).name.ToLower() == name.ToLower())
 						{
 							return idx;
 						}
@@ -809,13 +954,46 @@ namespace BlackLight
 			{
 				public Topic()
 				{
-					Text = "";
-					SetBy = "";
+					p_text = "";
+					p_setBy = "";
 					
 				}
-				public string Text;
-				public string SetBy;
-				public int Time;
+				private string p_text;
+				private string p_setBy;
+				private int p_time;
+                public string text
+                {
+                    get
+                    {
+                        return p_text;
+                    }
+                    set
+                    {
+                        p_text = value;
+                    }
+                }
+                public string setBy
+                {
+                    get
+                    {
+                        return p_setBy;
+                    }
+                    set
+                    {
+                        p_setBy = value;
+                    }
+                }
+                public int time
+                {
+                    get
+                    {
+                        return p_time;
+                    }
+                    set
+                    {
+                        p_time = value;
+                    }
+                }
 			}
 			
 			/// -----------------------------------------------------------------------------
@@ -834,16 +1012,32 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public class ChanMember
 			{
-				public Client User;
-				public short Status;
-				public string Modes;
-				
-				public ServicesCore MyCore;
-				public ChanMember(Client tUser, ServicesCore tBase) {
-					Modes = "";
+				protected Client p_user;
+				private string p_modes;
+                public string modes
+                {
+                    get
+                    {
+                        return p_modes;
+                    }
+                    set
+                    {
+                        p_modes = value;
+                    }
+                }
+                public Client user
+                {
+                    get
+                    {
+                        return p_user;
+                    }
+                }
+				private ServicesCore p_core;
+				public ChanMember(Client user, ServicesCore core) {
+					this.p_modes = "";
 					
-					User = tUser;
-					MyCore = tBase;
+					this.p_user = user;
+					this.p_core = core;
 				}
 				
 				
@@ -859,43 +1053,18 @@ namespace BlackLight
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public void RemoveMode(char tMode)
+				public void removeMode(char mode)
 				{
 					try
 					{
-						if (Modes.IndexOf(tMode) >= 0)
+						if (p_modes.IndexOf(mode) >= 0)
 						{
-							Modes.Replace(tMode.ToString(), "");
-						}
-						
-						if (Modes.IndexOf(Modes, MyCore.MyIRCd.OwnerMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_OWNER;
-						}
-						else if (Modes.IndexOf(Modes, MyCore.MyIRCd.AdminMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_ADMIN;
-						}
-						else if (Modes.IndexOf(Modes, MyCore.MyIRCd.OpMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_OP;
-						}
-						else if (Modes.IndexOf(Modes, MyCore.MyIRCd.HalfOpMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_HALFOP;
-						}
-						else if (Modes.IndexOf(Modes, MyCore.MyIRCd.VoiceMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_VOICE;
-						}
-						else
-						{
-							Status = IRCProtocol.IRCd.MODE_USER;
+                            p_modes.Replace(mode.ToString(), "");
 						}
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("ChanMember", "RemoveMode", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("ChanMember", "RemoveMode", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
 				/// -----------------------------------------------------------------------------
@@ -910,42 +1079,18 @@ namespace BlackLight
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public void AddMode(char tMode)
+				public void addMode(char mode)
 				{
 					try
 					{
-						if (Modes.IndexOf(tMode) < 0)
+                        if (p_modes.IndexOf(mode) < 0)
 						{
-							Modes += tMode;
-						}
-						if (Modes.IndexOf(MyCore.MyIRCd.OwnerMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_OWNER;
-						}
-						else if (Modes.IndexOf(MyCore.MyIRCd.AdminMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_ADMIN;
-						}
-						else if (Modes.IndexOf(MyCore.MyIRCd.OpMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_OP;
-						}
-						else if (Modes.IndexOf(MyCore.MyIRCd.HalfOpMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_HALFOP;
-						}
-						else if (Modes.IndexOf(MyCore.MyIRCd.VoiceMode) >= 0)
-						{
-							Status = IRCProtocol.IRCd.MODE_VOICE;
-						}
-						else
-						{
-							Status = IRCProtocol.IRCd.MODE_USER;
+                            p_modes += mode;
 						}
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("ChanMember", "AddMode", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("ChanMember", "AddMode", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
 				public void ParseModeSet (string ModeString)
@@ -965,7 +1110,7 @@ namespace BlackLight
 				/// -----------------------------------------------------------------------------
 				public bool IsOwner()
 				{
-					return Status == IRCProtocol.IRCd.MODE_OWNER;
+                    return (p_modes.IndexOf(p_core.MyIRCd.OwnerMode) >= 0);
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
@@ -980,7 +1125,7 @@ namespace BlackLight
 				/// -----------------------------------------------------------------------------
 				public bool IsAdmin()
 				{
-					return Status >= IRCProtocol.IRCd.MODE_ADMIN;
+                    return (p_modes.IndexOf(p_core.MyIRCd.AdminMode) >= 0);
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
@@ -995,7 +1140,7 @@ namespace BlackLight
 				/// -----------------------------------------------------------------------------
 				public bool IsOp()
 				{
-					return Status >= IRCProtocol.IRCd.MODE_OP;
+                    return (p_modes.IndexOf(p_core.MyIRCd.OpMode) >= 0);
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
@@ -1010,7 +1155,7 @@ namespace BlackLight
 				/// -----------------------------------------------------------------------------
 				public bool IsHalfOp()
 				{
-					return Status >= IRCProtocol.IRCd.MODE_HALFOP;
+                    return (p_modes.IndexOf(p_core.MyIRCd.HalfOpMode) >= 0);
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
@@ -1025,7 +1170,7 @@ namespace BlackLight
 				/// -----------------------------------------------------------------------------
 				public bool IsVoice()
 				{
-					return Status >= IRCProtocol.IRCd.MODE_VOICE;
+                    return (p_modes.IndexOf(p_core.MyIRCd.VoiceMode) >= 0);
 				}
 				/// -----------------------------------------------------------------------------
 				/// <summary>
@@ -1041,7 +1186,11 @@ namespace BlackLight
 				
 				public bool IsUser()
 				{
-					return Status == IRCProtocol.IRCd.MODE_USER;
+                    return (p_modes.IndexOf(p_core.MyIRCd.OwnerMode) < 0)
+                           && (p_modes.IndexOf(p_core.MyIRCd.AdminMode) < 0)
+                           && (p_modes.IndexOf(p_core.MyIRCd.OpMode) < 0)
+                           && (p_modes.IndexOf(p_core.MyIRCd.HalfOpMode) < 0)
+                           && (p_modes.IndexOf(p_core.MyIRCd.VoiceMode) < 0);
 				}
 			}
 			
@@ -1061,85 +1210,117 @@ namespace BlackLight
 			/// -----------------------------------------------------------------------------
 			public class Channel
 			{
-				public string Name;
-				public ServicesCore MyCore;
-				//Public Modes As ChannelModes
-				public string Modes;
-				public Topic Topic;
-				public ChanMembers ChannelMembers;
-				public Channel(string tName, ServicesCore tBase) {
-					Modes = "";
-					Topic = new Topic();
-					ChannelMembers = new ChanMembers();
+				protected string p_name;
+				protected ServicesCore p_core;
+				private string p_modes;
+                private Topic p_topic;
+                private ChanMembers p_channelMembers;
+				public Channel(string name, ServicesCore core) {
+					this.p_modes = "";
+					this.p_topic = new Topic();
+					this.p_channelMembers = new ChanMembers();
 					
-					Name = tName;
-					MyCore = tBase;
+					this.p_name = name;
+					this.p_core = core;
 				}
+                public string name
+                {
+                    get
+                    {
+                        return p_name;
+                    }
+                }
+                public string modes
+                {
+                    get
+                    {
+                        return p_modes;
+                    }
+                    set
+                    {
+                        p_modes = value; 
+                    }
+                }
+                public Topic topic
+                {
+                    get
+                    {
+                        return p_topic;
+                    }
+                    set
+                    {
+                        p_topic = value;
+                    }
+                }
+                public ChanMembers channelMembers
+                {
+                    get
+                    {
+                        return this.p_channelMembers;
+                    }
+                }
 				/// -----------------------------------------------------------------------------
 				/// <summary>
 				/// Parsed mode strings for channel
 				/// </summary>
-				/// <param name="ModeString"></param>
+				/// <param name="modeString"></param>
 				/// <remarks>
 				/// </remarks>
 				/// <history>
 				/// 	[Caleb]	6/18/2005	Created
 				/// </history>
 				/// -----------------------------------------------------------------------------
-				public void ParseModeSet (string ModeString)
+				public void parseModeSet (string modeString)
 				{
 					try
 					{
-						string[] tModeSet = ModeString.Split(' ');
-						// Dim ContainsExtend As Boolean = False
-						// Dim Extended As String
-						MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Running", ModeString, "", "");
-						MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "String?", tModeSet[0], "", "");
-						//Dim RemoveModes As String
-						// Dim AddModes As String
-						short LastModeParamIndex = 1;
-						bool Adding = true; //Lets assume we are adding :\
-						foreach (char tChar in tModeSet[0])
+                        string[] modeSet = modeString.Split(' ');
+						p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Running", modeString, "", "");
+						p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "String?", modeSet[0], "", "");
+						short lastModeParamIndex = 1;
+						bool adding = true; //Lets assume we are adding :\
+                        foreach (char tChar in modeSet[0])
 						{
 							if (tChar == '-')
 							{
-								Adding = false;
+                                adding = false;
 							}
 							else if (tChar == '+')
 							{
-								Adding = true;
+                                adding = true;
 							}
 							else
 							{
-								MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Adding?", Adding.ToString(), "", "");
+								p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Adding?", adding.ToString(), "", "");
 								//Going by what is most common to save time
 								//First status modes
-								if (MyCore.MyIRCd.StatusModes.IndexOf(tChar) >= 0)
+								if (p_core.MyIRCd.StatusModes.IndexOf(tChar) >= 0)
 								{
-									MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Status", "", "", "");
+									p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Status", "", "", "");
 									//I don't like this but meh
-									if (tModeSet.GetUpperBound(0) >= LastModeParamIndex)
+                                    if (modeSet.GetUpperBound(0) >= lastModeParamIndex)
 									{
-										if (Adding == true)
+										if (adding == true)
 										{
-											ChannelMembers[tModeSet[LastModeParamIndex]].AddMode(tChar);
+                                            p_channelMembers[modeSet[lastModeParamIndex]].addMode(tChar);
 										}
 										else
 										{
-											ChannelMembers[tModeSet[LastModeParamIndex]].RemoveMode(tChar);
+                                            p_channelMembers[modeSet[lastModeParamIndex]].removeMode(tChar);
 										}
-										LastModeParamIndex += Convert.ToInt16(1);
+                                        lastModeParamIndex += 1;
 									}
-									//Next Access Modes
+									
 								}
-								else if (MyCore.MyIRCd.AccessModes.IndexOf(tChar) >= 0)
+                                //Next Access Modes
+								else if (p_core.MyIRCd.AccessModes.IndexOf(tChar) >= 0)
 								{
-									MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Access", "", "", "");
-									//Then Param Modes
+									p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Access", "", "", "");
 								}
-								else if (MyCore.MyIRCd.ParamModes.IndexOf(tChar) >= 0)
+                                //Then Param Modes
+                                else if (p_core.MyIRCd.ParamModes.IndexOf(tChar) >= 0)
 								{
-									MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Param", "", "", "");
+                                    p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Param", "", "", "");
 									// ContainsExtend = True
 									// Extended &= tchar
 									//Now this isn't really right this should probably
@@ -1148,17 +1329,17 @@ namespace BlackLight
 								}
 								else
 								{
-									MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Normal", "", "", "");
-									if (Adding == true)
+                                    p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.DEBUG, "Normal", "", "", "");
+									if (adding == true)
 									{
-										if (Modes.IndexOf(tChar) < 0)
+										if (p_modes.IndexOf(tChar) < 0)
 										{
-											Modes += tChar;
+											p_modes += tChar;
 										}
 									}
 									else
 									{
-										Modes = Modes.Replace(tChar.ToString(), "");
+										p_modes = p_modes.Replace(tChar.ToString(), "");
 									}
 								}
 							}
@@ -1166,7 +1347,7 @@ namespace BlackLight
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
+						p_core.SendLogMessage("Channel", "ParseModeSet", BlackLight.Services.Error.Errors.ERROR, "Problem", "", ex.Message, ex.StackTrace);
 					}
 				}
 				

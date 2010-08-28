@@ -82,11 +82,11 @@ namespace BlackLight
 						ModuleList tModules = new ModuleList();
 						tModules.Add(MyBase.ModuleManage.Modules["Help"]);
 						MyService = new FloodServService(mFloodServ, MyBase.Core, FloodDB, tModules);
-						mFloodServ.Host = "services.com";
-						mFloodServ.Modes = "S";
-						mFloodServ.Realname = "FloodServ";
-						mFloodServ.Time = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
-						mFloodServ.Username = "FloodServ";
+						mFloodServ.host = "services.com";
+						mFloodServ.modes = "S";
+						mFloodServ.realname = "FloodServ";
+						mFloodServ.time = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
+						mFloodServ.username = "FloodServ";
 						MyBase.Core.onClientConnect += new BlackLight.Services.Core.ServicesCore.onClientConnectEventHandler(MyService.OnClientConnect);
 						
 						mFloodServ.Cmds.Add("HELP", new BlackLight.Services.Nodes.CommandCallBack( MyService.FSHelp));

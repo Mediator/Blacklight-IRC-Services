@@ -425,14 +425,14 @@ namespace BlackLight
 					try
 					{
                         Dictionary<string, string> reps = new Dictionary<string, string>();
-                        reps.Add("nickname", Client.Nick);
+                        reps.Add("nickname", Client.nick);
                         reps.Add("hops", "1");
-                        reps.Add("time", "!" + MyCore.Base64.IntToB64(Client.Time).Trim());
-                        reps.Add("username", Client.Username.Trim());
-                        reps.Add("host", Client.Host);
+                        reps.Add("time", "!" + MyCore.Base64.IntToB64(Client.time).Trim());
+                        reps.Add("username", Client.username.Trim());
+                        reps.Add("host", Client.host);
                         reps.Add("servername", MyCore.MyName);
-                        reps.Add("modes", Client.Modes);
-                        reps.Add("realname", Client.Realname);
+                        reps.Add("modes", Client.modes);
+                        reps.Add("realname", Client.realname);
                         MyCore.SendData(MyIRCd.SendCommands["CONNECTSEND"].buildCommand(MyCore.MyName, reps));
 						//MyCore.SendData(string.Format(MyIRCd.SendCommands["CONNECTSEND"].ToString(), Client.Nick, "1", "!" + MyCore.Base64.IntToB64(Client.Time), Client.Username, Client.Host, MyCore.MyName, Client.Modes, Client.Realname));
 					}

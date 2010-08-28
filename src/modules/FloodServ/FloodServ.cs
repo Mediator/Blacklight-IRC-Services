@@ -45,7 +45,7 @@ namespace BlackLight
 					
 					public void FSNoCommand (Client Source, string[] Message)
 					{
-						Help.sendResponse("FloodServ", MyClient, Source, "NO_SUCH_COMMAND", Message[0], MyClient.Name);
+						Help.sendResponse("FloodServ", MyClient, Source, "NO_SUCH_COMMAND", Message[0], MyClient.name);
 					}
 					
 					
@@ -77,13 +77,13 @@ namespace BlackLight
 							}
 						}
 						
-						if (m_Recent.Contains(data.Name) == false)
+						if (m_Recent.Contains(data.name) == false)
 						{
 							m_Recent.Add(data);
 						}
 						for (tInt = 0; tInt <= m_Recent.Count - 1; tInt++)
 						{
-							if ((((Client) m_Recent[tInt]).Time - 120) > BlackLight.Services.Converters.Time.GetTS(DateTime.Now))
+							if ((((Client) m_Recent[tInt]).time - 120) > BlackLight.Services.Converters.Time.GetTS(DateTime.Now))
 							{
 								m_Recent.RemoveAt(tInt);
 							}
@@ -94,9 +94,9 @@ namespace BlackLight
 						Prefix tPrefix = null;
 						for (tInt = 0; tInt <= m_Recent.Count - 1; tInt++)
 						{
-                            if (((Client)m_Recent[tInt]).Name.Length >= 3)
+                            if (((Client)m_Recent[tInt]).name.Length >= 3)
                             {
-                                tPattern = ((Client)m_Recent[tInt]).Name.Substring(0, 3);
+                                tPattern = ((Client)m_Recent[tInt]).name.Substring(0, 3);
                                 tFound = false;
                                 foreach (Prefix ttPrefix in tPrefixes)
                                 {
@@ -130,7 +130,7 @@ namespace BlackLight
 									}
 									for (tInt = 0; tInt <= m_Recent.Count - 1; tInt++)
 									{
-										if (m_Recent[tInt].Name.ToLower().StartsWith(mPrefix.Pattern.ToLower()))
+										if (m_Recent[tInt].name.ToLower().StartsWith(mPrefix.Pattern.ToLower()))
 										{
 											m_Recent.RemoveAt(tInt);
 										}
@@ -165,18 +165,18 @@ namespace BlackLight
 					private delegate bool ScanCallBack(string pattern, Client user);
 					private bool scan_np(string pattern, Client user)
 					{
-						if (user.Name.ToLower().StartsWith(System.Convert.ToString(pattern).ToLower()))
+						if (user.name.ToLower().StartsWith(System.Convert.ToString(pattern).ToLower()))
 						{
-							MyClient.gLine_Client(user.Name, user.Host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
+							MyClient.gLine_Client(user.name, user.host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
 							return true;
 						}
 						return false;
 					}
 					private bool scan_ns(string pattern, Client user)
 					{
-						if (user.Name.ToLower().EndsWith(System.Convert.ToString(pattern).ToLower()))
+						if (user.name.ToLower().EndsWith(System.Convert.ToString(pattern).ToLower()))
 						{
-							MyClient.gLine_Client(user.Name, user.Host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
+							MyClient.gLine_Client(user.name, user.host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
 							return true;
 						}
 						return false;
@@ -186,10 +186,10 @@ namespace BlackLight
 					{
 						Regex RegPattern = new Regex(System.Convert.ToString(pattern));
 						Match tMatch;
-						tMatch = RegPattern.Match(user.Name);
+						tMatch = RegPattern.Match(user.name);
 						if (tMatch.Success)
 						{
-							MyClient.gLine_Client(user.Name, user.Host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
+							MyClient.gLine_Client(user.name, user.host, BlackLight.Services.Converters.Time.GetTS(DateTime.Now.AddHours(1F)), "Akilled For Network Abuse (If you feel this was a mistake email med_mediator@hotmail.com)");
 							return true;
 						}
 						return false;
@@ -217,11 +217,11 @@ namespace BlackLight
 					private void GetClient (string pattern, ScanCallBack action, BlackLight.Services.Nodes.Server Serv)
 					{
 						int tIndex;
-						for (tIndex = 0; tIndex <= Serv.Users.Count - 1; tIndex++)
+						for (tIndex = 0; tIndex <= Serv.users.Count - 1; tIndex++)
 						{
-							action(pattern,((Client) Serv.Users[tIndex]));
+							action(pattern,((Client) Serv.users[tIndex]));
 						}
-						foreach (Server n in Serv.Leafs)
+						foreach (Server n in Serv.leafs)
 						{
 							GetClient(pattern, action, n);
 						}
@@ -232,11 +232,11 @@ namespace BlackLight
 						{
 							//							Client n;
 							int tIndex;
-							for (tIndex = 0; tIndex <= MyCore.MyHost.Users.Count - 1; tIndex++)
+							for (tIndex = 0; tIndex <= MyCore.MyHost.users.Count - 1; tIndex++)
 							{
-								action(pattern,((Client) MyCore.MyHost.Users[tIndex]));
+								action(pattern,((Client) MyCore.MyHost.users[tIndex]));
 							}
-							foreach (Server srv in MyCore.MyHost.Leafs)
+							foreach (Server srv in MyCore.MyHost.leafs)
 							{
 								GetClient(pattern, action, srv);
 							}
@@ -250,7 +250,7 @@ namespace BlackLight
 					
 					public void FSNPScan (Client Source, string[] Params)
 					{
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -271,7 +271,7 @@ namespace BlackLight
 					
 					public void FSNSScan (Client Source, string[] Params)
 					{
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -292,7 +292,7 @@ namespace BlackLight
 					
 					public void FSRegScan (Client Source, string[] Params)
 					{
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -479,7 +479,7 @@ namespace BlackLight
 					
 					public void FSNPWatch (Client Source, string[] Params)
 					{
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -497,7 +497,7 @@ namespace BlackLight
 											Help.sendResponse("FloodServ", MyClient, Source, "NPWATCH_ADD_PREFIX_EXISTS");
 											return;
 										}
-										if (addNPWatch(Params[1], Source.Nick) == true)
+										if (addNPWatch(Params[1], Source.nick) == true)
 										{
 											Help.sendResponse("FloodServ", MyClient, Source, "NPWATCH_ADD_SUCESS");
 											return;
@@ -591,7 +591,7 @@ namespace BlackLight
 																	
 					public void FSNSWatch (Client Source, string[] Params)
 					{
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -609,7 +609,7 @@ namespace BlackLight
 											Help.sendResponse("FloodServ", MyClient, Source, "NSWATCH_ADD_PREFIX_EXISTS");
 											return;
 										}
-										if (addNSWatch(Params[1], Source.Nick) == true)
+										if (addNSWatch(Params[1], Source.nick) == true)
 										{
 											Help.sendResponse("FloodServ", MyClient, Source, "NSWATCH_ADD_SUCESS");
 											return;
@@ -703,7 +703,7 @@ namespace BlackLight
 					public void FSRegWatch (Client Source, string[] Params)
 					{
 																														
-						if (Source.Modes.IndexOf("o") > - 1)
+						if (Source.modes.IndexOf("o") > - 1)
 						{
 							if (Params != null)
 							{
@@ -721,7 +721,7 @@ namespace BlackLight
 											Help.sendResponse("FloodServ", MyClient, Source, "REGWATCH_ADD_PREFIX_EXISTS");
 											return;
 										}
-										if (addRegWatch(Params[1], Source.Nick) == true)
+										if (addRegWatch(Params[1], Source.nick) == true)
 										{
 											Help.sendResponse("FloodServ", MyClient, Source, "REGWATCH_ADD_SUCESS");
 											return;

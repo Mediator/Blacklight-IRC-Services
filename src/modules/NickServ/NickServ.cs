@@ -39,7 +39,7 @@ namespace BlackLight
 					
 					public void NSNoCommand (Client Source, string[] Message)
 					{
-						Help.sendResponse("NickServ", MyClient, Source, "NO_SUCH_COMMAND", Message[0], MyClient.Name);
+						Help.sendResponse("NickServ", MyClient, Source, "NO_SUCH_COMMAND", Message[0], MyClient.name);
 					}
 					
 					
@@ -50,8 +50,8 @@ namespace BlackLight
 							if (Params.Length == 2)
 							{
 								BlackLight.Services.DB.Row CurUser;
-								CurUser = FindUser(Source.Nick);
-								if (CurUser != null&& Source.IdentNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
+								CurUser = FindUser(Source.nick);
+								if (CurUser != null&& Source.identNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "GROUP_NICK_REGISTERED");
 									//MyClient.Send_Notice(Source.Nick, "Your current nick is registered, and you are not identified to it.")
@@ -89,16 +89,16 @@ namespace BlackLight
 								if (CurUser == null)
 								{
 									BlackLight.Services.DB.Row tRow = NickDB["users"].MakeRow();
-									tRow["nickname"] = Source.Nick;
+									tRow["nickname"] = Source.nick;
 									tRow["owner"] = tUser["nickname"];
 									NickDB["users"].AddRow(tRow);
-									Source.IdentNick = Source.Nick;
+									Source.identNick = Source.nick;
 									// If they are identified this should change their identification to the nick
 									// They ar on
-									MyCore.Commands.IdentifyClient(MyClient.Nick, Source.Nick);
-									if (Source.IdentNick != "")
+									MyCore.Commands.IdentifyClient(MyClient.nick, Source.nick);
+									if (Source.identNick != "")
 									{
-										Help.sendResponse("NickServ", MyClient, Source, "GROUP_IDENTIFIED", Source.Nick);
+										Help.sendResponse("NickServ", MyClient, Source, "GROUP_IDENTIFIED", Source.nick);
 										//MyClient.Send_Notice(Source.Nick, "You are now identified to " & Source.Nick)
 									}
 								}
@@ -136,14 +136,14 @@ namespace BlackLight
 						if (Params == null)
 						{
 							
-							if (Source.IdentNick == "")
+							if (Source.identNick == "")
 							{
 								Help.sendResponse("NickServ", MyClient, Source, "GLIST_NO_IDENT");
 								//MyClient.Send_Notice(Source.Nick, "You are not identified to a nickname.")
 								return;
 							}
 							
-							BlackLight.Services.DB.Row tUser = FindUser(Source.IdentNick);
+							BlackLight.Services.DB.Row tUser = FindUser(Source.identNick);
 							
 							if (System.Convert.ToString(tUser["owner"])!= "")
 							{
@@ -202,13 +202,13 @@ namespace BlackLight
 										return;
 									}
 								}
-								if (!System.Convert.ToBoolean(FindUser(Source.Nick) == null))
+								if (!System.Convert.ToBoolean(FindUser(Source.nick) == null))
 								{
-									Help.sendResponse("NickServ", MyClient, Source, "REGISTER_INUSE", Source.Nick);
+									Help.sendResponse("NickServ", MyClient, Source, "REGISTER_INUSE", Source.nick);
 									//  MyClient.Send_Notice(Source.Nick, String.Format("Nickname {0}{1}{0} is already registered!", MyCore.FORMAT_BOLD, Source.Nick))
 									return;
 								}
-								if (Source.IdentNick != "")
+								if (Source.identNick != "")
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "REGISTER_ALREADY_IDENTIFIED");
 									// MyClient.Send_Notice(Source.Nick, "You are identified and cannot register another nickname in this manner while identified")
@@ -217,16 +217,16 @@ namespace BlackLight
 								try
 								{
 									BlackLight.Services.DB.Row tRow = NickDB["users"].MakeRow();
-									tRow["nickname"] = Source.Nick;
+									tRow["nickname"] = Source.nick;
 									tRow["password"] = Params[0];
 									tRow["email"] = Params[1];
 									tRow["regdate"] = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
 									//MsgBox(tRow("regdate"))
 									NickDB["users"].AddRow(tRow);
-									Source.IdentNick = Source.Nick;
+									Source.identNick = Source.nick;
 									Help.sendResponse("NickServ", MyClient, Source, "REGISTER_REGISTERED");
 									// MyClient.Send_Notice(Source.Nick, "You are now registered")
-									MyCore.Commands.IdentifyClient(MyClient.Nick, Source.Nick);
+									MyCore.Commands.IdentifyClient(MyClient.nick, Source.nick);
 								}
 								catch (Exception ex)
 								{
@@ -297,14 +297,14 @@ namespace BlackLight
 							if (Params.Length == 1)
 							{
 								//Normal Identify
-								if (Source.IdentNick != "")
+								if (Source.identNick != "")
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "IDENTIFY_ALREADY_IDENTIFIED");
 									//MyClient.Send_Notice(Source.Nick, "You are already identified.")
 									return;
 								}
 								
-								BlackLight.Services.DB.Row tUser = FindUser(Source.Nick);
+								BlackLight.Services.DB.Row tUser = FindUser(Source.nick);
 								if (tUser == null)
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "IDENTIFY_NOT_REGISTERED");
@@ -326,8 +326,8 @@ namespace BlackLight
 								
 								if (System.Convert.ToString(tUser["password"])== Params[0])
 								{
-									Source.IdentNick = Source.Nick;
-									MyCore.Commands.IdentifyClient(MyClient.Nick, Source.Nick);
+									Source.identNick = Source.nick;
+									MyCore.Commands.IdentifyClient(MyClient.nick, Source.nick);
 									// MyClient.Send_Notice(Source.Nick, "You are now identified")
 									Help.sendResponse("NickServ", MyClient, Source, "IDENTIFY_IDENTIFIED");
 								}
@@ -341,7 +341,7 @@ namespace BlackLight
 							else if (Params.Length == 2)
 							{
 								//Remote Identify
-								if (Source.IdentNick != "")
+								if (Source.identNick != "")
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "IDENTIFY_ALREADY_IDENTIFIED");
 									//MyClient.Send_Notice(Source.Nick, "You are already identified.")
@@ -363,30 +363,30 @@ namespace BlackLight
 								if (Params[1].Length < 5)
 								{
 									Help.sendResponse("NickServ", MyClient, Source, "IDENTIFY_BAD_PASS");
-									MyClient.Send_Notice(Source.Nick, "Invalid password");
+									MyClient.Send_Notice(Source.nick, "Invalid password");
 									return;
 								}
 								
 								if (System.Convert.ToString(tUser["password"])== Params[1])
 								{
-									Source.IdentNick = Params[0];
-									MyCore.Commands.IdentifyClient(MyClient.Nick, Source.Nick);
-									MyClient.Send_Notice(Source.Nick, "You are now identified");
+									Source.identNick = Params[0];
+									MyCore.Commands.IdentifyClient(MyClient.nick, Source.nick);
+									MyClient.Send_Notice(Source.nick, "You are now identified");
 								}
 								else
 								{
-									MyClient.Send_Notice(Source.Nick, "Incorrect password");
+									MyClient.Send_Notice(Source.nick, "Incorrect password");
 									return;
 								}
 							}
 							else
 							{
-								MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}IDENTIFY {1}password{1}{0} OR {0}IDENTIFY {1}nickname password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+								MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}IDENTIFY {1}password{1}{0} OR {0}IDENTIFY {1}nickname password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 							}
 						}
 						else
 						{
-							MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}IDENTIFY {1}password{1}{0} OR {0}IDENTIFY {1}nickname password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+							MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}IDENTIFY {1}password{1}{0} OR {0}IDENTIFY {1}nickname password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 						}
 					}
 					
@@ -397,26 +397,26 @@ namespace BlackLight
 						{
 							if (Params.Length == 1)
 							{
-								if (Source.IdentNick == "")
+								if (Source.identNick == "")
 								{
-									MyClient.Send_Notice(Source.Nick, "You are not identified.");
+									MyClient.Send_Notice(Source.nick, "You are not identified.");
 									return;
 								}
 								
 								BlackLight.Services.DB.Row CurUser;
-								CurUser = FindUser(Source.Nick);
+								CurUser = FindUser(Source.nick);
 								
 								if (CurUser == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "Your nick isn\'t registered.");
+									MyClient.Send_Notice(Source.nick, "Your nick isn\'t registered.");
 									return;
 								}
 								
-								if (Source.IdentNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
+								if (Source.identNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
 								{
 									//O Okay...
 									//Get the owner of the ident nick, and the owner of the current nick
-									BlackLight.Services.DB.Row tIdentOwner = FindUser(Source.IdentNick);
+									BlackLight.Services.DB.Row tIdentOwner = FindUser(Source.identNick);
 									if (System.Convert.ToString(tIdentOwner["owner"])!= "")
 									{
 										tIdentOwner = FindUser(System.Convert.ToString(tIdentOwner["owner"]));
@@ -433,7 +433,7 @@ namespace BlackLight
 									}
 									if (System.Convert.ToString(tCurOwner["nickname"]).ToLower() != System.Convert.ToString(tIdentOwner["nickname"]).ToLower())
 									{
-										MyClient.Send_Notice(Source.Nick, "Your current nick is registered, and you are not identified to it.");
+										MyClient.Send_Notice(Source.nick, "Your current nick is registered, and you are not identified to it.");
 										return;
 									}
 								}
@@ -469,15 +469,15 @@ namespace BlackLight
 								}
 								
 								NickDB["users"].RemoveRow(RemUser);
-								MyClient.Send_Notice(Source.Nick, "Your nickname has been dropped");
+								MyClient.Send_Notice(Source.nick, "Your nickname has been dropped");
 							}
 							else if (Params.Length == 2)
 							{
 								//Dropping External Nick
 								//Oper or group only
-								if (Source.IdentNick == "")
+								if (Source.identNick == "")
 								{
-									MyClient.Send_Notice(Source.Nick, "You are not identified.");
+									MyClient.Send_Notice(Source.nick, "You are not identified.");
 									return;
 								}
 								
@@ -486,15 +486,15 @@ namespace BlackLight
 								
 								if (CurUser == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "That nick isn\'t registered.");
+									MyClient.Send_Notice(Source.nick, "That nick isn\'t registered.");
 									return;
 								}
 								
-								if (Source.IdentNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
+								if (Source.identNick.ToLower() != System.Convert.ToString(CurUser["nickname"]).ToLower())
 								{
 									//O Okay...
 									//Get the owner of the ident nick, and the owner of the current nick
-									BlackLight.Services.DB.Row tIdentOwner = FindUser(Source.IdentNick);
+									BlackLight.Services.DB.Row tIdentOwner = FindUser(Source.identNick);
 									if (System.Convert.ToString(tIdentOwner["owner"])!= "")
 									{
 										tIdentOwner = FindUser(System.Convert.ToString(tIdentOwner["owner"]));
@@ -512,7 +512,7 @@ namespace BlackLight
 									//Stuff for opers here
 									if (System.Convert.ToString(tCurOwner["nickname"]).ToLower() != System.Convert.ToString(tIdentOwner["nickname"]).ToLower())
 									{
-										MyClient.Send_Notice(Source.Nick, "Permission Denied.");
+										MyClient.Send_Notice(Source.nick, "Permission Denied.");
 										return;
 									}
 								}
@@ -548,17 +548,17 @@ namespace BlackLight
 								}
 								
 								NickDB["users"].RemoveRow(RemUser);
-								MyClient.Send_Notice(Source.Nick, "The nickname has been dropped");
+								MyClient.Send_Notice(Source.nick, "The nickname has been dropped");
 								
 							}
 							else
 							{
-								MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}DROP [{1}nickname{1}]{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+								MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}DROP [{1}nickname{1}]{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 							}
 						}
 						else
 						{
-							MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}DROP [{1}nickname{1}[{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+							MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}DROP [{1}nickname{1}[{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 						}
 					}
 					
@@ -572,20 +572,20 @@ namespace BlackLight
 								//First Make sure the user is online
 								if (MyCore.GetClient(Params[0]) == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "No such nickname");
+									MyClient.Send_Notice(Source.nick, "No such nickname");
 									return;
 								}
 								
-								if (Params[0].ToLower() == Source.Nick.ToLower())
+								if (Params[0].ToLower() == Source.nick.ToLower())
 								{
-									MyClient.Send_Notice(Source.Nick, "You cannot ghost yourself");
+									MyClient.Send_Notice(Source.nick, "You cannot ghost yourself");
 									return;
 								}
 								
 								BlackLight.Services.DB.Row tUser = FindUser(Params[0]);
 								if (tUser == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "That nickname isn\'t registered");
+									MyClient.Send_Notice(Source.nick, "That nickname isn\'t registered");
 									return;
 								}
 								
@@ -599,7 +599,7 @@ namespace BlackLight
 								{
 									if (System.Convert.ToString(tUser["password"])!= Params[1])
 									{
-										MyClient.Send_Notice(Source.Nick, "Incorrect password");
+										MyClient.Send_Notice(Source.nick, "Incorrect password");
 										return;
 									}
 								}
@@ -607,13 +607,13 @@ namespace BlackLight
 								{
 									if (System.Convert.ToString(tOwner["password"])!= Params[1])
 									{
-										MyClient.Send_Notice(Source.Nick, "Incorrect password");
+										MyClient.Send_Notice(Source.nick, "Incorrect password");
 										return;
 									}
 								}
 								
-								MyClient.Kill_Client(Params[0], "GHOST command used by " + Source.Nick);
-								MyClient.Send_Notice(Source.Nick, "Your nickname has been killed");
+								MyClient.Kill_Client(Params[0], "GHOST command used by " + Source.nick);
+								MyClient.Send_Notice(Source.nick, "Your nickname has been killed");
 								
 							}
 							else if (Params.Length == 1)
@@ -622,23 +622,23 @@ namespace BlackLight
 								//First Make sure the user is online
 								if (MyCore.GetClient(Params[0]) == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "No such nickname");
+									MyClient.Send_Notice(Source.nick, "No such nickname");
 									return;
 								}
 								
-								if (Params[0].ToLower() == Source.Nick.ToLower())
+								if (Params[0].ToLower() == Source.nick.ToLower())
 								{
-									MyClient.Send_Notice(Source.Nick, "You cannot ghost yourself");
+									MyClient.Send_Notice(Source.nick, "You cannot ghost yourself");
 									return;
 								}
 								
-								if (Source.IdentNick == "")
+								if (Source.identNick == "")
 								{
-									MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+									MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 									return;
 								}
 								
-								BlackLight.Services.DB.Row CurUser = FindUser(Source.IdentNick);
+								BlackLight.Services.DB.Row CurUser = FindUser(Source.identNick);
 								if (System.Convert.ToString(CurUser["owner"])!= "")
 								{
 									CurUser = FindUser(System.Convert.ToString(CurUser["owner"]));
@@ -648,7 +648,7 @@ namespace BlackLight
 								BlackLight.Services.DB.Row tUser = FindUser(Params[0]);
 								if (tUser == null)
 								{
-									MyClient.Send_Notice(Source.Nick, "That nickname isn\'t registered");
+									MyClient.Send_Notice(Source.nick, "That nickname isn\'t registered");
 									return;
 								}
 								
@@ -662,7 +662,7 @@ namespace BlackLight
 								{
 									if (System.Convert.ToString(CurUser["nickname"]).ToLower() != System.Convert.ToString(tUser["nickname"]).ToLower())
 									{
-										MyClient.Send_Notice(Source.Nick, "Permission Denied");
+										MyClient.Send_Notice(Source.nick, "Permission Denied");
 										return;
 									}
 								}
@@ -670,23 +670,23 @@ namespace BlackLight
 								{
 									if (System.Convert.ToString(CurUser["nickname"]).ToLower() != System.Convert.ToString(tOwner["nickname"]).ToLower())
 									{
-										MyClient.Send_Notice(Source.Nick, "Permission Denied");
+										MyClient.Send_Notice(Source.nick, "Permission Denied");
 										return;
 									}
 								}
 								
-								MyClient.Kill_Client(Params[0], MyClient.Nick + " (GHOST command used by " + Source.Nick + ")");
-								MyClient.Send_Notice(Source.Nick, "Your nickname has been killed");
+								MyClient.Kill_Client(Params[0], MyClient.nick + " (GHOST command used by " + Source.nick + ")");
+								MyClient.Send_Notice(Source.nick, "Your nickname has been killed");
 								
 							}
 							else
 							{
-								MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+								MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 							}
 						}
 						else
 						{
-							MyClient.Send_Notice(Source.Nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
+							MyClient.Send_Notice(Source.nick, string.Format("Syntax: {0}GHOST {1}target-nick password{1}{0}", BlackLight.Services.Core.ServicesCore.FORMAT_BOLD, BlackLight.Services.Core.ServicesCore.FORMAT_UNDERLINE));
 						}
 					}
 					

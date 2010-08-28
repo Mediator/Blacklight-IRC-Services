@@ -63,17 +63,17 @@ namespace BlackLight
 				public MessageCallBack OnMsg;
 				public void Send_Notice (string Dest, string Message)
 				{
-					base.MyCore.Commands.Send_Notice(base.Name, Dest, Message);
+					base.p_core.Commands.Send_Notice(base.name, Dest, Message);
 				}
 				public void Send_PrivMSG (string Dest, string Message)
 				{
-					base.MyCore.Commands.Send_PrivMSG(base.Name, Dest, Message);
+					base.p_core.Commands.Send_PrivMSG(base.name, Dest, Message);
 				}
 				public void Kill_Client (string Dest, string Message)
 				{
-					base.MyCore.Commands.Send_Kill(base.Name, Dest, Message);
-					base.MyCore.Raise_Quit(Dest, Message);
-					Client tClient = base.MyCore.GetClient(Dest);
+					base.p_core.Commands.Send_Kill(base.name, Dest, Message);
+					base.p_core.Raise_Quit(Dest, Message);
+					Client tClient = base.p_core.GetClient(Dest);
 					if (tClient != null)
 					{
 						tClient.Dispose();
@@ -81,48 +81,48 @@ namespace BlackLight
 				}
 				public void Quit (string Reason)
 				{
-					base.MyCore.Commands.Send_Quit(base.Name, Reason);
+					base.p_core.Commands.Send_Quit(base.name, Reason);
 					this.Dispose();
 				}
 				public void gLine_Client (string Dest, string Host, int ExpireTime, string Reason)
 				{
-					base.MyCore.Commands.Send_gLine(base.Name, Host, ExpireTime, Reason);
+					base.p_core.Commands.Send_gLine(base.name, Host, ExpireTime, Reason);
 				}
 				public void zLine_Client (string Dest, string Host, int ExpireTime, string Reason)
 				{
-					base.MyCore.Commands.Send_zLine(base.Name, Host, ExpireTime, Reason);
+					base.p_core.Commands.Send_zLine(base.name, Host, ExpireTime, Reason);
 				}
 				public void Join_Channel (string Channel, string Key)
 				{
 					int tChannelIndex;
-					base.MyCore.Commands.Join_Channel(base.Name, Channel, Key);
-					if (MyCore.Channels.Contains(Channel) == false)
+					base.p_core.Commands.Join_Channel(base.name, Channel, Key);
+					if (base.p_core.Channels.Contains(Channel) == false)
 					{
-						tChannelIndex = MyCore.Channels.Add(new Channel(Channel, MyCore));
+						tChannelIndex = base.p_core.Channels.Add(new Channel(Channel, base.p_core));
 					}
 					else
 					{
-						tChannelIndex = MyCore.Channels.IndexOf(Channel);
+						tChannelIndex = base.p_core.Channels.IndexOf(Channel);
 					}
 					//RaiseEvent onDebug("JOIN-Join Nick: " & tUser.Nick & " Channel: " & tMatch.Groups("CHANNEL").Value)
-					MyCore.Channels[tChannelIndex].ChannelMembers.Add(new ChanMember(this, MyCore));
-					base.Channels.Add(MyCore.Channels[tChannelIndex]);
+					base.p_core.Channels[tChannelIndex].channelMembers.Add(new ChanMember(this, base.p_core));
+					base.channels.Add(base.p_core.Channels[tChannelIndex]);
 					tChannelIndex = 0;
 				}
 				protected override void Dispose (bool disposing)
 				{
 					
-					Host = null;
-					Username = null;
-					Realname = null;
-					Modes = null;
-					if (MyCore.LocalClients.Contains(this))
+					p_host = null;
+					p_username = null;
+					p_realname = null;
+					p_modes = null;
+					if (base.p_core.LocalClients.Contains(this))
 					{
-						MyCore.LocalClients.Remove(this);
+						base.p_core.LocalClients.Remove(this);
 					}
 					else
 					{
-						MyCore.SendLogMessage("LocalClients", "Dispose", BlackLight.Services.Error.Errors.DEBUG, "Client list does not contain me", this.Name, "", "");
+						base.p_core.SendLogMessage("LocalClients", "Dispose", BlackLight.Services.Error.Errors.DEBUG, "Client list does not contain me", this.name, "", "");
 					}
 				}
 				
@@ -172,7 +172,7 @@ namespace BlackLight
 					}
 					catch (Exception ex)
 					{
-						MyCore.SendLogMessage("LocalClients", "CmdExec", BlackLight.Services.Error.Errors.ERROR, "Problem executing actual command", "", ex.Message, ex.StackTrace);
+						base.p_core.SendLogMessage("LocalClients", "CmdExec", BlackLight.Services.Error.Errors.ERROR, "Problem executing actual command", "", ex.Message, ex.StackTrace);
 						return false;
 					}
 				}
@@ -264,7 +264,7 @@ namespace BlackLight
 				{
 					for (int idx = 0; idx <= a.Count - 1; idx++)
 					{
-						if (((LocalClient)(a[idx])).Name.ToLower() == name.ToLower())
+						if (((LocalClient)(a[idx])).name.ToLower() == name.ToLower())
 						{
 							return idx;
 						}

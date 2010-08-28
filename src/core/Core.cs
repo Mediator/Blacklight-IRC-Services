@@ -13,11 +13,7 @@ using BlackLight.Services.Error;
 using BlackLight.Services.Converters;
 using BlackLight.Services.IRCProtocol;
 
-namespace BlackLight
-{
-	namespace Services
-	{
-		namespace Core
+namespace BlackLight.Services.Core
 		{
 			
 			
@@ -1057,7 +1053,7 @@ namespace BlackLight
                                 if (tSource.IndexOf(".") >= 0)
                                 {
 
-                                    if (tSource == MyHost.Name)
+                                    if (tSource == MyHost.name)
                                     {
                                         Source = MyHost;
                                     }
@@ -1279,12 +1275,12 @@ namespace BlackLight
                                                     {
                                                         for (int x = 1; x < unrealData.Length - 1; x++)
                                                         {
-                                                            MyHost.Description += unrealData[x] + " ";
+                                                            MyHost.description += unrealData[x] + " ";
                                                         }
                                                     }
-                                                    tServer.Description += unrealData[unrealData.Length - 1];
-                                                    tServer.Numeric = int.Parse(unrealData[0].Substring(unrealData[0].LastIndexOf("-") + 1));
-                                                    SendLogMessage("Services", "NewServer", BlackLight.Services.Error.Errors.ERROR, "Word", MyHost.Numeric.ToString(), "", "");
+                                                    tServer.description += unrealData[unrealData.Length - 1];
+                                                    tServer.numeric = int.Parse(unrealData[0].Substring(unrealData[0].LastIndexOf("-") + 1));
+                                                    SendLogMessage("Services", "NewServer", BlackLight.Services.Error.Errors.ERROR, "Word", MyHost.numeric.ToString(), "", "");
                                                 }
                                                 else
                                                 {
@@ -1292,7 +1288,7 @@ namespace BlackLight
                                                     {
                                                         if (cmdAlt.getParameterIndex("SERVERDESCRIPTION") < arguments.Count - 1)
                                                         {
-                                                            MyHost.Description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
+                                                            MyHost.description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
                                                         }
                                                     }
                                                 }
@@ -1303,7 +1299,7 @@ namespace BlackLight
                                                 {
                                                     if (cmdAlt.getParameterIndex("SERVERDESCRIPTION") < arguments.Count - 1)
                                                     {
-                                                        tServer.Description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
+                                                        tServer.description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
                                                     }
                                                 }
                                             }
@@ -1311,20 +1307,20 @@ namespace BlackLight
                                         else
                                         {
                                             if (cmd.hasParameter("SERVERDESCRIPTION"))
-                                                tServer.Description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
-                                            tServer.Numeric = Convert.ToInt16(arguments[cmd.getParameterIndex("SERVERNUMERIC")]);
+                                                tServer.description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
+                                            tServer.numeric = Convert.ToInt16(arguments[cmd.getParameterIndex("SERVERNUMERIC")]);
                                         }
                                     }
                                     else
                                     {
                                         if (cmd.hasParameter("SERVERDESCRIPTION"))
-                                            tServer.Description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
-                                        tServer.Numeric = tServer.ID;
+                                            tServer.description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
+                                        tServer.numeric = tServer.id;
                                     }
-									tServer.HostServer = tHostServer;
-									tHostServer.Leafs.Add(tServer);
+									tServer.hostServer = tHostServer;
+									tHostServer.leafs.Add(tServer);
 									if (onServerEvent != null)
-										onServerEvent(tServer.Name, tServer);
+										onServerEvent(tServer.name, tServer);
 									tServer = null;
 								}
 							}
@@ -1345,12 +1341,12 @@ namespace BlackLight
                                             {
                                                 for (int x = 1; x < unrealData.Length - 1; x++)
                                                 {
-                                                    MyHost.Description += unrealData[x] + " ";
+                                                    MyHost.description += unrealData[x] + " ";
                                                 }
                                             }
-                                            MyHost.Description += unrealData[unrealData.Length - 1];
-                                            MyHost.Numeric = int.Parse(unrealData[0].Substring(unrealData[0].LastIndexOf("-")+1));
-                                            SendLogMessage("Services", "NewServer", BlackLight.Services.Error.Errors.ERROR, "Word", MyHost.Numeric.ToString(), "", "");
+                                            MyHost.description += unrealData[unrealData.Length - 1];
+                                            MyHost.numeric = int.Parse(unrealData[0].Substring(unrealData[0].LastIndexOf("-")+1));
+                                            SendLogMessage("Services", "NewServer", BlackLight.Services.Error.Errors.ERROR, "Word", MyHost.numeric.ToString(), "", "");
                                         }
                                         else
                                         {
@@ -1358,7 +1354,7 @@ namespace BlackLight
                                             {
                                                 if (cmdAlt.getParameterIndex("SERVERDESCRIPTION") < arguments.Count - 1)
                                                 {
-                                                    MyHost.Description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
+                                                    MyHost.description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
                                                 }
                                             }
                                         }
@@ -1369,7 +1365,7 @@ namespace BlackLight
                                         {
                                             if (cmdAlt.getParameterIndex("SERVERDESCRIPTION") < arguments.Count - 1)
                                             {
-                                                MyHost.Description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
+                                                MyHost.description = arguments[cmdAlt.getParameterIndex("SERVERDESCRIPTION")];
                                             }
                                         }
                                     }
@@ -1377,18 +1373,18 @@ namespace BlackLight
                                 else
                                 {
                                     if (cmd.hasParameter("SERVERDESCRIPTION"))
-                                        MyHost.Description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
-                                    MyHost.Numeric = Convert.ToInt16(arguments[cmd.getParameterIndex("SERVERNUMERIC")]);
+                                        MyHost.description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
+                                    MyHost.numeric = Convert.ToInt16(arguments[cmd.getParameterIndex("SERVERNUMERIC")]);
                                 }
                             }
                             else
                             {
                                 if (cmd.hasParameter("SERVERDESCRIPTION"))
-                                    MyHost.Description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
-                                MyHost.Numeric = MyHost.ID;
+                                    MyHost.description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
+                                MyHost.numeric = MyHost.id;
                             }
 								if (onServerEvent != null)
-									onServerEvent(MyHost.Name, MyHost);
+									onServerEvent(MyHost.name, MyHost);
 						}
 						return true;
 					}
@@ -1454,8 +1450,8 @@ namespace BlackLight
 								{
                                     BlackLight.Services.Nodes.Client tUser = new BlackLight.Services.Nodes.Client(arguments[cmd.getParameterIndex("NICKNAME")], this);
 									//tMatch.Groups("REALNAME")
-                                    tUser.Username = arguments[cmd.getParameterIndex("USERNAME")];
-                                    tUser.Host = arguments[cmd.getParameterIndex("HOST")];
+                                    tUser.username = arguments[cmd.getParameterIndex("USERNAME")];
+                                    tUser.host = arguments[cmd.getParameterIndex("HOST")];
 									short tNumeric;
 									if (cmd.hasParameter("SERVERNUMERIC"))
 									{
@@ -1466,9 +1462,9 @@ namespace BlackLight
 										tNumeric = - 1;
 									}
 
-                                    if (arguments[cmd.getParameterIndex("SERVERNAME")] == MyHost.Name || tNumeric == MyHost.Numeric)
+                                    if (arguments[cmd.getParameterIndex("SERVERNAME")] == MyHost.name || tNumeric == MyHost.numeric)
 									{
-										tUser.HostServer = MyHost;
+										tUser.hostServer = MyHost;
 									}
 									else
 									{
@@ -1476,20 +1472,20 @@ namespace BlackLight
 										tServList = MyHost.GetAllServers();
 										foreach (BlackLight.Services.Nodes.Server srv in tServList)
 										{
-                                            if (arguments[cmd.getParameterIndex("SERVERNAME")] == srv.Name || tNumeric == srv.Numeric)
+                                            if (arguments[cmd.getParameterIndex("SERVERNAME")] == srv.name || tNumeric == srv.numeric)
 											{
-												tUser.HostServer = srv;
+												tUser.hostServer = srv;
 											}
 										}
 									}
                                     if (cmd.hasParameter("VHOST"))
-                                        tUser.VHost = arguments[cmd.getParameterIndex("VHOST")];
-                                    tUser.Realname = arguments[cmd.getParameterIndex("REALNAME")];
-									tUser.HostServer.Users.Add(tUser);
+                                        tUser.vHost = arguments[cmd.getParameterIndex("VHOST")];
+                                    tUser.realname = arguments[cmd.getParameterIndex("REALNAME")];
+									tUser.hostServer.users.Add(tUser);
                                     tUser.ParseModeSet(arguments[cmd.getParameterIndex("MODES")]);
-                                    tUser.Time = Base64.B64ToInt(arguments[cmd.getParameterIndex("TIME")]);
+                                    tUser.time = Base64.B64ToInt(arguments[cmd.getParameterIndex("TIME")]);
 									if (onClientConnectEvent != null)
-										onClientConnectEvent(tUser.Name, tUser);
+										onClientConnectEvent(tUser.name, tUser);
 									tUser = null;
 								}
 								else
@@ -1508,10 +1504,10 @@ namespace BlackLight
 										{
 											BlackLight.Services.Nodes.Client tUser;
 											tUser = ((BlackLight.Services.Nodes.Client) Source);
-											string tOldNick = tUser.Nick;
-                                            tUser.Nick = arguments[cmd.getParameterIndex("NEWNICK")];
+											string tOldNick = tUser.nick;
+                                            tUser.nick = arguments[cmd.getParameterIndex("NEWNICK")];
 											if (onNickEvent != null)
-												onNickEvent(tOldNick, tUser.Nick);
+												onNickEvent(tOldNick, tUser.nick);
 											tUser = null;
 											tOldNick = null;
 										}
@@ -1561,25 +1557,25 @@ namespace BlackLight
                                         tChannelIndex = Channels.IndexOf(arguments[cmd.getParameterIndex("CHANNEL")]);
 									}
 									//RaiseEvent onDebug("JOIN-Join Nick: " & tUser.Nick & " Channel: " & tMatch.Groups("CHANNEL").Value)
-									Channels[tChannelIndex].ChannelMembers.Add(new BlackLight.Services.Nodes.ChanMember(tUser, this));
-									tUser.Channels.Add(Channels[tChannelIndex]);
+									Channels[tChannelIndex].channelMembers.Add(new BlackLight.Services.Nodes.ChanMember(tUser, this));
+									tUser.channels.Add(Channels[tChannelIndex]);
 									if (onJoinEvent != null)
-										onJoinEvent(tUser.Nick, Channels[tChannelIndex].Name);
+										onJoinEvent(tUser.nick, Channels[tChannelIndex].name);
 									tChannelIndex = 0;
 								}
                                 else if (arguments[cmd.getParameterIndex("CHANNEL")][0] == '0')
 								{
 									
-									while (tUser.Channels.Count > 0)
+									while (tUser.channels.Count > 0)
 									{
-										if (tUser.Channels[0].ChannelMembers.Count == 1 && tUser.Channels[0].ChannelMembers.Contains(tUser))
+										if (tUser.channels[0].channelMembers.Count == 1 && tUser.channels[0].channelMembers.Contains(tUser))
 										{
-											Channels.Remove(tUser.Channels[0]);
+											Channels.Remove(tUser.channels[0]);
 										}
 										else
 										{
-											tUser.Channels[0].ChannelMembers.Remove(tUser.Channels[0].ChannelMembers[tUser]);
-											tUser.Channels.RemoveAt(0);
+											tUser.channels[0].channelMembers.Remove(tUser.channels[0].channelMembers[tUser]);
+											tUser.channels.RemoveAt(0);
 										}
 									}
 								}
@@ -1623,21 +1619,21 @@ namespace BlackLight
 								
 								// Dim tUser As Client = Source
                                 BlackLight.Services.Nodes.Client tKicked = GetClient(arguments[cmd.getParameterIndex("NICKNAME")]);
-								if (Channels[tChannelIndex].ChannelMembers.Contains(tKicked))
+								if (Channels[tChannelIndex].channelMembers.Contains(tKicked))
 								{
-									Channels[tChannelIndex].ChannelMembers.Remove(Channels[tChannelIndex].ChannelMembers[tKicked]);
-									if (tKicked.Channels.Contains(Channels[tChannelIndex]))
+									Channels[tChannelIndex].channelMembers.Remove(Channels[tChannelIndex].channelMembers[tKicked]);
+									if (tKicked.channels.Contains(Channels[tChannelIndex]))
 									{
-										tKicked.Channels.Remove(Channels[tChannelIndex]);
+										tKicked.channels.Remove(Channels[tChannelIndex]);
 									}
 									else
 									{
 										SendLogMessage("Services", "Kick", BlackLight.Services.Error.Errors.ERROR, "Channel Lists Desync: member has no record of channel", "", "", "");
 									}
 								}
-								else if (tKicked.Channels.Contains(Channels[tChannelIndex]))
+								else if (tKicked.channels.Contains(Channels[tChannelIndex]))
 								{
-									tKicked.Channels.Remove(Channels[tChannelIndex]);
+									tKicked.channels.Remove(Channels[tChannelIndex]);
 									SendLogMessage("Services", "Kick", BlackLight.Services.Error.Errors.ERROR, "Channel Lists Desync: channel has no record of member", "", "", "");
 								}
 								else
@@ -1645,12 +1641,12 @@ namespace BlackLight
 									SendLogMessage("Services", "Kick", BlackLight.Services.Error.Errors.ERROR, "Recieved kick for invalid channel member", "", "", "");
 								}
 								
-								if (Channels[tChannelIndex].ChannelMembers.Count == 0)
+								if (Channels[tChannelIndex].channelMembers.Count == 0)
 								{
 									Channels.RemoveAt(tChannelIndex);
 								}
 								if (onKickEvent != null)
-                                    onKickEvent(Source.Name, tKicked.Nick, arguments[cmd.getParameterIndex("REASON")]);
+                                    onKickEvent(Source.name, tKicked.nick, arguments[cmd.getParameterIndex("REASON")]);
 							}
 							else
 							{
@@ -1685,21 +1681,21 @@ namespace BlackLight
 									return false;
 								}
 								BlackLight.Services.Nodes.Client tUser = ((BlackLight.Services.Nodes.Client) Source);
-								if (Channels[tChannelIndex].ChannelMembers.Contains(tUser))
+								if (Channels[tChannelIndex].channelMembers.Contains(tUser))
 								{
-									Channels[tChannelIndex].ChannelMembers.Remove(Channels[tChannelIndex].ChannelMembers[tUser]);
-									if (tUser.Channels.Contains(Channels[tChannelIndex]))
+									Channels[tChannelIndex].channelMembers.Remove(Channels[tChannelIndex].channelMembers[tUser]);
+									if (tUser.channels.Contains(Channels[tChannelIndex]))
 									{
-										tUser.Channels.Remove(Channels[tChannelIndex]);
+										tUser.channels.Remove(Channels[tChannelIndex]);
 									}
 									else
 									{
 										SendLogMessage("Services", "Part", BlackLight.Services.Error.Errors.ERROR, "Channel Lists Desync member has no record of channel, channel has record of member", "", "", "");
 									}
 								}
-								else if (tUser.Channels.Contains(Channels[tChannelIndex]))
+								else if (tUser.channels.Contains(Channels[tChannelIndex]))
 								{
-									tUser.Channels.Remove(Channels[tChannelIndex]);
+									tUser.channels.Remove(Channels[tChannelIndex]);
 									SendLogMessage("Services", "Part", BlackLight.Services.Error.Errors.ERROR, "Channel Lists Desync member has record of channel, channel has no record of member", "", "", "");
 								}
 								else
@@ -1707,12 +1703,12 @@ namespace BlackLight
 									SendLogMessage("Services", "Part", BlackLight.Services.Error.Errors.ERROR, "Recieved part for invalid channel member", "", "", "");
 								}
 								
-								if (Channels[tChannelIndex].ChannelMembers.Count == 0)
+								if (Channels[tChannelIndex].channelMembers.Count == 0)
 								{
 									Channels.RemoveAt(tChannelIndex);
 								}
 								if (onPartEvent != null)
-                                    onPartEvent(tUser.Name, arguments[cmd.getParameterIndex("CHANNEL")]);
+                                    onPartEvent(tUser.name, arguments[cmd.getParameterIndex("CHANNEL")]);
 							}
 							else
 							{
@@ -1749,15 +1745,15 @@ namespace BlackLight
 									return false;
 								}
                                 
-                                Channels[tChannelIndex].Topic.Text = arguments[cmd.getParameterIndex("TOPIC")];
-                                Channels[tChannelIndex].Topic.SetBy = arguments[cmd.getParameterIndex("WHOSET")];
+                                Channels[tChannelIndex].topic.text = arguments[cmd.getParameterIndex("TOPIC")];
+                                Channels[tChannelIndex].topic.setBy = arguments[cmd.getParameterIndex("WHOSET")];
                                 if (arguments[cmd.getParameterIndex("TIME")].StartsWith("!"))
                                 {
-                                    Channels[tChannelIndex].Topic.Time = Base64.B64ToInt(arguments[cmd.getParameterIndex("TIME")]);
+                                    Channels[tChannelIndex].topic.time = Base64.B64ToInt(arguments[cmd.getParameterIndex("TIME")]);
                                 }
                                 else
                                 {
-                                    Channels[tChannelIndex].Topic.Time = int.Parse(arguments[cmd.getParameterIndex("TIME")]);
+                                    Channels[tChannelIndex].topic.time = int.Parse(arguments[cmd.getParameterIndex("TIME")]);
                                 }
 							}
 							else
@@ -1797,7 +1793,7 @@ namespace BlackLight
 								{
                                     tChannelIndex = Channels.IndexOf(arguments[cmd.getParameterIndex("CHANNEL")]);
 								}
-                                Channels[tChannelIndex].ParseModeSet(arguments[cmd.getParameterIndex("MODESTRING")]);
+                                Channels[tChannelIndex].parseModeSet(arguments[cmd.getParameterIndex("MODESTRING")]);
                                 string[] tUserList = arguments[cmd.getParameterIndex("USERLIST")].Split(' ');
 								BlackLight.Services.Nodes.Client tUser;
 								short tInt = 0;
@@ -1835,8 +1831,8 @@ namespace BlackLight
                                         
                                         if (tUser != null)
                                         {
-                                            int tMemberIndex = Channels[tChannelIndex].ChannelMembers.Add(new BlackLight.Services.Nodes.ChanMember(tUser, this));
-                                            tUser.Channels.Add(Channels[tChannelIndex]);
+                                            int tMemberIndex = Channels[tChannelIndex].channelMembers.Add(new BlackLight.Services.Nodes.ChanMember(tUser, this));
+                                            tUser.channels.Add(Channels[tChannelIndex]);
                                             foreach (char tChar in tModes)
                                             {
                                                 if (MyIRCd.StatusModes.IndexOf(tModes[tInt]) < 0)
@@ -1847,7 +1843,7 @@ namespace BlackLight
                                                 }
                                                 else
                                                 {
-                                                    Channels[tChannelIndex].ChannelMembers[tMemberIndex].AddMode(tChar);
+                                                    Channels[tChannelIndex].channelMembers[tMemberIndex].addMode(tChar);
                                                 }
                                             }
                                             if (onJoinEvent != null)
@@ -1895,7 +1891,7 @@ namespace BlackLight
                                         SendLogMessage("Services", "ModeChange", BlackLight.Services.Error.Errors.ERROR, "Channel does not exist", arguments[cmd.getParameterIndex("OBJECT")], "", "");
 										return false;
 									}
-                                    Channels[tChannelIndex].ParseModeSet(arguments[cmd.getParameterIndex("MODESTRING")]);
+                                    Channels[tChannelIndex].parseModeSet(arguments[cmd.getParameterIndex("MODESTRING")]);
 									if (onModeEvent != null)
 										onModeEvent();
 								}
@@ -1917,7 +1913,7 @@ namespace BlackLight
 										BlackLight.Services.Nodes.Client tUser;
 										if (!cmd.hasParameter("OBJECT"))
 										{
-											tUser = GetClient(Source.Name);
+											tUser = GetClient(Source.name);
 										}
 										else
 										{
@@ -2151,7 +2147,7 @@ namespace BlackLight
 							if (arguments.Count == cmd.parameterCount())
 							{
 								if (onQuitEvent != null)
-                                    onQuitEvent(Source.Name, arguments[cmd.getParameterIndex("REASON")]);
+                                    onQuitEvent(Source.name, arguments[cmd.getParameterIndex("REASON")]);
 								Source.Dispose();
 							}
 							else
@@ -2184,7 +2180,7 @@ namespace BlackLight
 								if (tUser != null)
 								{
 									if (onSVSKillEvent != null)
-                                        onSVSKillEvent(tUser.Name, arguments[cmd.getParameterIndex("REASON")]);
+                                        onSVSKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2219,7 +2215,7 @@ namespace BlackLight
 								if (tUser != null)
 								{
 									if (onKillEvent != null)
-                                        onKillEvent(tUser.Name, arguments[cmd.getParameterIndex("REASON")]);
+                                        onKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2254,7 +2250,7 @@ namespace BlackLight
                                     onSQUITEvent(arguments[cmd.getParameterIndex("SERVERNAME")], arguments[cmd.getParameterIndex("REASON")]);
 								foreach (BlackLight.Services.Nodes.Server tServer in MyHost.GetAllServers())
 								{
-                                    if (tServer.Name == arguments[cmd.getParameterIndex("SERVERNAME")])
+                                    if (tServer.name == arguments[cmd.getParameterIndex("SERVERNAME")])
 									{
 										tServer.Dispose();
 										break;
@@ -2330,12 +2326,12 @@ namespace BlackLight
 					{
 						BlackLight.Services.Nodes.Client n;
 						short tIndex;
-						tIndex = Convert.ToInt16(MyHost.Users.IndexOf(name));
+						tIndex = Convert.ToInt16(MyHost.users.IndexOf(name));
 						if (tIndex >= 0)
 						{
-							return ((BlackLight.Services.Nodes.Client) MyHost.Users[tIndex]);
+							return ((BlackLight.Services.Nodes.Client) MyHost.users[tIndex]);
 						}
-						foreach (BlackLight.Services.Nodes.Server srv in MyHost.Leafs)
+						foreach (BlackLight.Services.Nodes.Server srv in MyHost.leafs)
 						{
 							n = GetClient(name, srv);
 							if (n != null)
@@ -2377,12 +2373,12 @@ namespace BlackLight
 						else
 						{
 							
-							tIndex = Convert.ToInt16(MyHost.Users.IndexOf(name));
+							tIndex = Convert.ToInt16(MyHost.users.IndexOf(name));
 							if (tIndex >= 0)
 							{
-								return MyHost.Users[tIndex];
+								return MyHost.users[tIndex];
 							}
-							foreach (BlackLight.Services.Nodes.Server srv in MyHost.Leafs)
+							foreach (BlackLight.Services.Nodes.Server srv in MyHost.leafs)
 							{
 								n = GetClient(name, srv);
 								if (n != null)
@@ -2417,13 +2413,13 @@ namespace BlackLight
 					try
 					{
 						short tIndex;
-						tIndex = Convert.ToInt16(Serv.Users.IndexOf(name));
+						tIndex = Convert.ToInt16(Serv.users.IndexOf(name));
 						if (tIndex >= 0)
 						{
-							return ((BlackLight.Services.Nodes.Client) Serv.Users[tIndex]);
+							return ((BlackLight.Services.Nodes.Client) Serv.users[tIndex]);
 						}
 						BlackLight.Services.Nodes.Client tClient;
-						foreach (BlackLight.Services.Nodes.Server n in Serv.Leafs)
+						foreach (BlackLight.Services.Nodes.Server n in Serv.leafs)
 						{
 							tClient = GetClient(name, n);
 							if (tClient != null)
@@ -2465,12 +2461,12 @@ namespace BlackLight
 					{
 						BlackLight.Services.Nodes.Server n;
 						short tIndex;
-						tIndex = Convert.ToInt16(MyHost.Leafs.IndexOf(name));
+						tIndex = Convert.ToInt16(MyHost.leafs.IndexOf(name));
 						if (tIndex >= 0)
 						{
-							return ((BlackLight.Services.Nodes.Server) MyHost.Leafs[tIndex]);
+							return ((BlackLight.Services.Nodes.Server) MyHost.leafs[tIndex]);
 						}
-						foreach (BlackLight.Services.Nodes.Server srv in MyHost.Leafs)
+						foreach (BlackLight.Services.Nodes.Server srv in MyHost.leafs)
 						{
 							n = GetServer(name, srv);
 							if (n != null)
@@ -2491,13 +2487,13 @@ namespace BlackLight
 					try
 					{
 						short tIndex;
-						tIndex = Convert.ToInt16(Serv.Leafs.IndexOf(name));
+						tIndex = Convert.ToInt16(Serv.leafs.IndexOf(name));
 						if (tIndex >= 0)
 						{
-							return ((BlackLight.Services.Nodes.Server) Serv.Leafs[tIndex]);
+							return ((BlackLight.Services.Nodes.Server) Serv.leafs[tIndex]);
 						}
 						BlackLight.Services.Nodes.Server tServer;
-						foreach (BlackLight.Services.Nodes.Server n in Serv.Leafs)
+						foreach (BlackLight.Services.Nodes.Server n in Serv.leafs)
 						{
 							tServer = GetServer(name, n);
 							if (tServer != null)
@@ -2543,5 +2539,3 @@ namespace BlackLight
 				
 			}
 		}
-	}
-}

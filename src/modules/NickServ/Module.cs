@@ -83,11 +83,11 @@ namespace BlackLight
 						ModuleList tModules = new ModuleList();
 						tModules.Add(MyBase.ModuleManage.Modules["Help"]);
 						MyService = new NickServService(mNickServ, MyBase.Core, NickDB, tModules);
-						mNickServ.Host = "services.com";
-						mNickServ.Modes = "S";
-						mNickServ.Realname = "NickyServ";
-						mNickServ.Time = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
-						mNickServ.Username = "NickServIdent";
+						mNickServ.host = "services.com";
+						mNickServ.modes = "S";
+						mNickServ.realname = "NickyServ";
+						mNickServ.time = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
+						mNickServ.username = "NickServIdent";
 						
 						// Client
 						mNickServ.Cmds.Add("REGISTER", new BlackLight.Services.Nodes.CommandCallBack( MyService.NSRegister));

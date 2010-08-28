@@ -282,7 +282,7 @@ namespace BlackLight
 							tResponse = HelpResponses[Service].Commands["help"];
 							foreach (string tString in tResponse.Value)
 							{
-								ServiceClient.Send_Notice(Source.Nick, tString);
+								ServiceClient.Send_Notice(Source.nick, tString);
 							}
 						}
 						else
@@ -299,7 +299,7 @@ namespace BlackLight
 									{
 										foreach (string tString in tList[Params[tInt]].Value)
 										{
-											ServiceClient.Send_Notice(Source.Nick, tString);
+											ServiceClient.Send_Notice(Source.nick, tString);
 										}
 										break;
 									}
@@ -315,7 +315,7 @@ namespace BlackLight
 									{
 										tString += " " + tVal;
 									}
-									ServiceClient.Send_Notice(Source.Nick, "No help available for" + tString);
+									ServiceClient.Send_Notice(Source.nick, "No help available for" + tString);
 									break;
 								}
 							}
@@ -331,15 +331,15 @@ namespace BlackLight
 							{
 								foreach (string tString in HelpResponses[Service].Errors[message])
 								{
-									ServiceClient.Send_Notice(Source.Nick, tString);
+									ServiceClient.Send_Notice(Source.nick, tString);
 								}
 								string tError = HelpResponses[Service].Errors["error"][0];
 								
-								ServiceClient.Send_Notice(Source.Nick, string.Format(tError, ServiceClient.Nick, command));
+								ServiceClient.Send_Notice(Source.nick, string.Format(tError, ServiceClient.nick, command));
 							}
 							else
 							{
-								ServiceClient.Send_Notice(Source.Nick, "Information missing for: " + message);
+								ServiceClient.Send_Notice(Source.nick, "Information missing for: " + message);
 							}
 							Console.WriteLine("o no");
 						}
@@ -354,12 +354,12 @@ namespace BlackLight
 							{
 								foreach (string tString in HelpResponses[Service].Errors[message])
 								{
-									ServiceClient.Send_Notice(Source.Nick, tString);
+									ServiceClient.Send_Notice(Source.nick, tString);
 								}
 							}
 							else
 							{
-								ServiceClient.Send_Notice(Source.Nick, "Information missing for: " + message);
+								ServiceClient.Send_Notice(Source.nick, "Information missing for: " + message);
 							}
 						}
 						
@@ -373,12 +373,12 @@ namespace BlackLight
 							{
 								foreach (string tString in HelpResponses[Service].Errors[message])
 								{
-									ServiceClient.Send_Notice(Source.Nick, string.Format(tString, Params));
+									ServiceClient.Send_Notice(Source.nick, string.Format(tString, Params));
 								}
 							}
 							else
 							{
-								ServiceClient.Send_Notice(Source.Nick, "Information missing for: " + message);
+								ServiceClient.Send_Notice(Source.nick, "Information missing for: " + message);
 							}
 						}
 						
@@ -389,7 +389,7 @@ namespace BlackLight
 						foreach (BlackLight.Services.Modules.Help.ServiceCommandResponse tCommand in Commands)
 						{
 							Console.WriteLine(tCommand.Name);
-							if (tCommand.Commands != null&& tCommand.Commands.Count > 0)
+							if (tCommand.Commands != null && tCommand.Commands.Count > 0)
 							{
 								ListCommands(tCommand.Commands);
 							}
