@@ -70,7 +70,7 @@ namespace BlackLight
 							BlackLight.Services.Timers.Timer NSSaveTimer;
 							NSSaveTimer = new BlackLight.Services.Timers.Timer(new TimeSpan(0), new TimeSpan(0, 5, 0), - 1, new Timers.TimedCallBack( TimerSaveDB));
 							MyBase.timerController.addTimer(NSSaveTimer);
-							MyBase.Core.OnFinishedNetBurst += new BlackLight.Services.Core.ServicesCore.OnFinishedNetBurstEventHandler(this.OnConnect);
+							MyBase.Core.events.OnFinishedNetBurst += new BlackLight.Services.Core.ServicesCore.ServicesEvents.OnFinishedNetBurstEventHandler(this.OnConnect);
 						}
 						catch (Exception ex)
 						{

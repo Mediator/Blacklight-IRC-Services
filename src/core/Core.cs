@@ -32,7 +32,7 @@ namespace BlackLight.Services.Core
 			/// 	[Caleb]	6/18/2005	Created
 			/// </history>
 			/// -----------------------------------------------------------------------------
-			public class ServicesCore : IRC
+			public partial class ServicesCore : IRC
 			{
 				
 				public const char FORMAT_BOLD = '\u0002';
@@ -130,550 +130,19 @@ namespace BlackLight.Services.Core
 				/// </history>
 				/// -----------------------------------------------------------------------------
 				public BlackLight.Services.Converters.Time Time;
+
+                /// <summary>
+                /// Instance of events object
+                /// </summary>
+                /// <remarks>
+                /// </remarks>
+                /// <history>
+                ///     [Caleb] 8/28/2010   Created
+                /// </history>
+                public BlackLight.Services.Core.ServicesCore.ServicesEvents events;
+
+
 				
-				public delegate void onPingEventHandler();
-				private onPingEventHandler onPingEvent;
-				
-				public event onPingEventHandler onPing
-				{
-					add
-					{
-						onPingEvent = (onPingEventHandler) System.Delegate.Combine(onPingEvent, value);
-					}
-					remove
-					{
-						onPingEvent = (onPingEventHandler) System.Delegate.Remove(onPingEvent, value);
-					}
-				}
-				
-				public delegate void LogMessageEventHandler(string Origin, string Method, BlackLight.Services.Error.Errors Type, string Message, string Extra, string Exception, string Trace);
-				private LogMessageEventHandler LogMessageEvent;
-				
-				public event LogMessageEventHandler LogMessage
-				{
-					add
-					{
-						LogMessageEvent = (LogMessageEventHandler) System.Delegate.Combine(LogMessageEvent, value);
-					}
-					remove
-					{
-						LogMessageEvent = (LogMessageEventHandler) System.Delegate.Remove(LogMessageEvent, value);
-					}
-				}
-				
-				public delegate void onPrivMsgEventHandler(BlackLight.Services.Nodes.Client Source, string Dest, string[] Message);
-				private onPrivMsgEventHandler onPrivMsgEvent;
-				
-				public event onPrivMsgEventHandler onPrivMsg
-				{
-					add
-					{
-						onPrivMsgEvent = (onPrivMsgEventHandler) System.Delegate.Combine(onPrivMsgEvent, value);
-					}
-					remove
-					{
-						onPrivMsgEvent = (onPrivMsgEventHandler) System.Delegate.Remove(onPrivMsgEvent, value);
-					}
-				}
-				
-				public delegate void onNoticeEventHandler(BlackLight.Services.Nodes.Client Source, string Dest, string[] Message);
-				private onNoticeEventHandler onNoticeEvent;
-				
-				public event onNoticeEventHandler onNotice
-				{
-					add
-					{
-						onNoticeEvent = (onNoticeEventHandler) System.Delegate.Combine(onNoticeEvent, value);
-					}
-					remove
-					{
-						onNoticeEvent = (onNoticeEventHandler) System.Delegate.Remove(onNoticeEvent, value);
-					}
-				}
-				
-				public delegate void onSNoticeEventHandler(string server, string who, string message);
-				private onSNoticeEventHandler onSNoticeEvent;
-				
-				public event onSNoticeEventHandler onSNotice
-				{
-					add
-					{
-						onSNoticeEvent = (onSNoticeEventHandler) System.Delegate.Combine(onSNoticeEvent, value);
-					}
-					remove
-					{
-						onSNoticeEvent = (onSNoticeEventHandler) System.Delegate.Remove(onSNoticeEvent, value);
-					}
-				}
-				
-				public delegate void onCTCPEventHandler();
-				private onCTCPEventHandler onCTCPEvent;
-				
-				public event onCTCPEventHandler onCTCP
-				{
-					add
-					{
-						onCTCPEvent = (onCTCPEventHandler) System.Delegate.Combine(onCTCPEvent, value);
-					}
-					remove
-					{
-						onCTCPEvent = (onCTCPEventHandler) System.Delegate.Remove(onCTCPEvent, value);
-					}
-				}
-				
-				public delegate void onJoinEventHandler(string NickName, string Channel);
-				private onJoinEventHandler onJoinEvent;
-				
-				public event onJoinEventHandler onJoin
-				{
-					add
-					{
-						onJoinEvent = (onJoinEventHandler) System.Delegate.Combine(onJoinEvent, value);
-					}
-					remove
-					{
-						onJoinEvent = (onJoinEventHandler) System.Delegate.Remove(onJoinEvent, value);
-					}
-				}
-				
-				public delegate void onPartEventHandler(string NickName, string Channel);
-				private onPartEventHandler onPartEvent;
-				
-				public event onPartEventHandler onPart
-				{
-					add
-					{
-						onPartEvent = (onPartEventHandler) System.Delegate.Combine(onPartEvent, value);
-					}
-					remove
-					{
-						onPartEvent = (onPartEventHandler) System.Delegate.Remove(onPartEvent, value);
-					}
-				}
-				
-				public delegate void onQuitEventHandler(string NickName, string Reason);
-				private onQuitEventHandler onQuitEvent;
-				
-				public event onQuitEventHandler onQuit
-				{
-					add
-					{
-						onQuitEvent = (onQuitEventHandler) System.Delegate.Combine(onQuitEvent, value);
-					}
-					remove
-					{
-						onQuitEvent = (onQuitEventHandler) System.Delegate.Remove(onQuitEvent, value);
-					}
-				}
-				
-				public delegate void onSVSKillEventHandler(string NickName, string Reason);
-				private onSVSKillEventHandler onSVSKillEvent;
-				
-				public event onSVSKillEventHandler onSVSKill
-				{
-					add
-					{
-						onSVSKillEvent = (onSVSKillEventHandler) System.Delegate.Combine(onSVSKillEvent, value);
-					}
-					remove
-					{
-						onSVSKillEvent = (onSVSKillEventHandler) System.Delegate.Remove(onSVSKillEvent, value);
-					}
-				}
-				
-				public delegate void onKickEventHandler(string Kicker, string Kicked, string Reason);
-				private onKickEventHandler onKickEvent;
-				
-				public event onKickEventHandler onKick
-				{
-					add
-					{
-						onKickEvent = (onKickEventHandler) System.Delegate.Combine(onKickEvent, value);
-					}
-					remove
-					{
-						onKickEvent = (onKickEventHandler) System.Delegate.Remove(onKickEvent, value);
-					}
-				}
-				
-				public delegate void OnFinishedNetBurstEventHandler();
-				private OnFinishedNetBurstEventHandler OnFinishedNetBurstEvent;
-				
-				public event OnFinishedNetBurstEventHandler OnFinishedNetBurst
-				{
-					add
-					{
-						OnFinishedNetBurstEvent = (OnFinishedNetBurstEventHandler) System.Delegate.Combine(OnFinishedNetBurstEvent, value);
-					}
-					remove
-					{
-						OnFinishedNetBurstEvent = (OnFinishedNetBurstEventHandler) System.Delegate.Remove(OnFinishedNetBurstEvent, value);
-					}
-				}
-				
-				public delegate void onOpEventHandler();
-				private onOpEventHandler onOpEvent;
-				
-				public event onOpEventHandler onOp
-				{
-					add
-					{
-						onOpEvent = (onOpEventHandler) System.Delegate.Combine(onOpEvent, value);
-					}
-					remove
-					{
-						onOpEvent = (onOpEventHandler) System.Delegate.Remove(onOpEvent, value);
-					}
-				}
-				
-				public delegate void onDeOpEventHandler();
-				private onDeOpEventHandler onDeOpEvent;
-				
-				public event onDeOpEventHandler onDeOp
-				{
-					add
-					{
-						onDeOpEvent = (onDeOpEventHandler) System.Delegate.Combine(onDeOpEvent, value);
-					}
-					remove
-					{
-						onDeOpEvent = (onDeOpEventHandler) System.Delegate.Remove(onDeOpEvent, value);
-					}
-				}
-				
-				public delegate void onOwnerEventHandler();
-				private onOwnerEventHandler onOwnerEvent;
-				
-				public event onOwnerEventHandler onOwner
-				{
-					add
-					{
-						onOwnerEvent = (onOwnerEventHandler) System.Delegate.Combine(onOwnerEvent, value);
-					}
-					remove
-					{
-						onOwnerEvent = (onOwnerEventHandler) System.Delegate.Remove(onOwnerEvent, value);
-					}
-				}
-				
-				public delegate void onDeOwnerEventHandler();
-				private onDeOwnerEventHandler onDeOwnerEvent;
-				
-				public event onDeOwnerEventHandler onDeOwner
-				{
-					add
-					{
-						onDeOwnerEvent = (onDeOwnerEventHandler) System.Delegate.Combine(onDeOwnerEvent, value);
-					}
-					remove
-					{
-						onDeOwnerEvent = (onDeOwnerEventHandler) System.Delegate.Remove(onDeOwnerEvent, value);
-					}
-				}
-				
-				public delegate void onHalfOpEventHandler();
-				private onHalfOpEventHandler onHalfOpEvent;
-				
-				public event onHalfOpEventHandler onHalfOp
-				{
-					add
-					{
-						onHalfOpEvent = (onHalfOpEventHandler) System.Delegate.Combine(onHalfOpEvent, value);
-					}
-					remove
-					{
-						onHalfOpEvent = (onHalfOpEventHandler) System.Delegate.Remove(onHalfOpEvent, value);
-					}
-				}
-				
-				public delegate void onDeHalfOpEventHandler();
-				private onDeHalfOpEventHandler onDeHalfOpEvent;
-				
-				public event onDeHalfOpEventHandler onDeHalfOp
-				{
-					add
-					{
-						onDeHalfOpEvent = (onDeHalfOpEventHandler) System.Delegate.Combine(onDeHalfOpEvent, value);
-					}
-					remove
-					{
-						onDeHalfOpEvent = (onDeHalfOpEventHandler) System.Delegate.Remove(onDeHalfOpEvent, value);
-					}
-				}
-				
-				public delegate void onOnProtectEventHandler();
-				private onOnProtectEventHandler onOnProtectEvent;
-				
-				public event onOnProtectEventHandler onOnProtect
-				{
-					add
-					{
-						onOnProtectEvent = (onOnProtectEventHandler) System.Delegate.Combine(onOnProtectEvent, value);
-					}
-					remove
-					{
-						onOnProtectEvent = (onOnProtectEventHandler) System.Delegate.Remove(onOnProtectEvent, value);
-					}
-				}
-				
-				public delegate void onDeProtectEventHandler();
-				private onDeProtectEventHandler onDeProtectEvent;
-				
-				public event onDeProtectEventHandler onDeProtect
-				{
-					add
-					{
-						onDeProtectEvent = (onDeProtectEventHandler) System.Delegate.Combine(onDeProtectEvent, value);
-					}
-					remove
-					{
-						onDeProtectEvent = (onDeProtectEventHandler) System.Delegate.Remove(onDeProtectEvent, value);
-					}
-				}
-				
-				public delegate void onVoiceEventHandler();
-				private onVoiceEventHandler onVoiceEvent;
-				
-				public event onVoiceEventHandler onVoice
-				{
-					add
-					{
-						onVoiceEvent = (onVoiceEventHandler) System.Delegate.Combine(onVoiceEvent, value);
-					}
-					remove
-					{
-						onVoiceEvent = (onVoiceEventHandler) System.Delegate.Remove(onVoiceEvent, value);
-					}
-				}
-				
-				public delegate void onDeVoiceEventHandler();
-				private onDeVoiceEventHandler onDeVoiceEvent;
-				
-				public event onDeVoiceEventHandler onDeVoice
-				{
-					add
-					{
-						onDeVoiceEvent = (onDeVoiceEventHandler) System.Delegate.Combine(onDeVoiceEvent, value);
-					}
-					remove
-					{
-						onDeVoiceEvent = (onDeVoiceEventHandler) System.Delegate.Remove(onDeVoiceEvent, value);
-					}
-				}
-				
-				public delegate void onModeEventHandler();
-				private onModeEventHandler onModeEvent;
-				
-				public event onModeEventHandler onMode
-				{
-					add
-					{
-						onModeEvent = (onModeEventHandler) System.Delegate.Combine(onModeEvent, value);
-					}
-					remove
-					{
-						onModeEvent = (onModeEventHandler) System.Delegate.Remove(onModeEvent, value);
-					}
-				}
-				
-				public delegate void onBanEventHandler();
-				private onBanEventHandler onBanEvent;
-				
-				public event onBanEventHandler onBan
-				{
-					add
-					{
-						onBanEvent = (onBanEventHandler) System.Delegate.Combine(onBanEvent, value);
-					}
-					remove
-					{
-						onBanEvent = (onBanEventHandler) System.Delegate.Remove(onBanEvent, value);
-					}
-				}
-				
-				public delegate void onUnbanEventHandler();
-				private onUnbanEventHandler onUnbanEvent;
-				
-				public event onUnbanEventHandler onUnban
-				{
-					add
-					{
-						onUnbanEvent = (onUnbanEventHandler) System.Delegate.Combine(onUnbanEvent, value);
-					}
-					remove
-					{
-						onUnbanEvent = (onUnbanEventHandler) System.Delegate.Remove(onUnbanEvent, value);
-					}
-				}
-				
-				public delegate void onExceptEventHandler();
-				private onExceptEventHandler onExceptEvent;
-				
-				public event onExceptEventHandler onExcept
-				{
-					add
-					{
-						onExceptEvent = (onExceptEventHandler) System.Delegate.Combine(onExceptEvent, value);
-					}
-					remove
-					{
-						onExceptEvent = (onExceptEventHandler) System.Delegate.Remove(onExceptEvent, value);
-					}
-				}
-				
-				public delegate void onUnExceptEventHandler();
-				private onUnExceptEventHandler onUnExceptEvent;
-				
-				public event onUnExceptEventHandler onUnExcept
-				{
-					add
-					{
-						onUnExceptEvent = (onUnExceptEventHandler) System.Delegate.Combine(onUnExceptEvent, value);
-					}
-					remove
-					{
-						onUnExceptEvent = (onUnExceptEventHandler) System.Delegate.Remove(onUnExceptEvent, value);
-					}
-				}
-				
-				public delegate void onNickEventHandler(string Oldnick, string Newnick);
-				private onNickEventHandler onNickEvent;
-				
-				public event onNickEventHandler onNick
-				{
-					add
-					{
-						onNickEvent = (onNickEventHandler) System.Delegate.Combine(onNickEvent, value);
-					}
-					remove
-					{
-						onNickEvent = (onNickEventHandler) System.Delegate.Remove(onNickEvent, value);
-					}
-				}
-				
-				public delegate void onClientConnectEventHandler(string nickname, BlackLight.Services.Nodes.Client data);
-				private onClientConnectEventHandler onClientConnectEvent;
-				
-				public event onClientConnectEventHandler onClientConnect
-				{
-					add
-					{
-						onClientConnectEvent = (onClientConnectEventHandler) System.Delegate.Combine(onClientConnectEvent, value);
-					}
-					remove
-					{
-						onClientConnectEvent = (onClientConnectEventHandler) System.Delegate.Remove(onClientConnectEvent, value);
-					}
-				}
-				
-				public delegate void onClientDisconnectEventHandler();
-				private onClientDisconnectEventHandler onClientDisconnectEvent;
-				
-				public event onClientDisconnectEventHandler onClientDisconnect
-				{
-					add
-					{
-						onClientDisconnectEvent = (onClientDisconnectEventHandler) System.Delegate.Combine(onClientDisconnectEvent, value);
-					}
-					remove
-					{
-						onClientDisconnectEvent = (onClientDisconnectEventHandler) System.Delegate.Remove(onClientDisconnectEvent, value);
-					}
-				}
-				
-				public delegate void onServerEventHandler(string name, BlackLight.Services.Nodes.Server data);
-				private onServerEventHandler onServerEvent;
-				
-				public event onServerEventHandler onServer
-				{
-					add
-					{
-						onServerEvent = (onServerEventHandler) System.Delegate.Combine(onServerEvent, value);
-					}
-					remove
-					{
-						onServerEvent = (onServerEventHandler) System.Delegate.Remove(onServerEvent, value);
-					}
-				}
-				
-				public delegate void onSQUITEventHandler(string name, string reason);
-				private onSQUITEventHandler onSQUITEvent;
-				
-				public event onSQUITEventHandler onSQUIT
-				{
-					add
-					{
-						onSQUITEvent = (onSQUITEventHandler) System.Delegate.Combine(onSQUITEvent, value);
-					}
-					remove
-					{
-						onSQUITEvent = (onSQUITEventHandler) System.Delegate.Remove(onSQUITEvent, value);
-					}
-				}
-				
-				public delegate void onKillEventHandler(string NickName, string Reason);
-				private onKillEventHandler onKillEvent;
-				
-				public event onKillEventHandler onKill
-				{
-					add
-					{
-						onKillEvent = (onKillEventHandler) System.Delegate.Combine(onKillEvent, value);
-					}
-					remove
-					{
-						onKillEvent = (onKillEventHandler) System.Delegate.Remove(onKillEvent, value);
-					}
-				}
-				
-				// Public Event onIRCError(ByVal message As String)
-				//  Public Event onCmd(ByVal message As String)
-				//  Public Event onDebug(ByVal message As String)
-				//    Public Event onUnknown(ByVal message As String)
-				public delegate void onTopicChangeEventHandler(string channel, BlackLight.Services.Nodes.IRCUser Source, string topic);
-				private onTopicChangeEventHandler onTopicChangeEvent;
-				
-				public event onTopicChangeEventHandler onTopicChange
-				{
-					add
-					{
-						onTopicChangeEvent = (onTopicChangeEventHandler) System.Delegate.Combine(onTopicChangeEvent, value);
-					}
-					remove
-					{
-						onTopicChangeEvent = (onTopicChangeEventHandler) System.Delegate.Remove(onTopicChangeEvent, value);
-					}
-				}
-				
-				public delegate void onTopicEventHandler(string channel, string topic);
-				private onTopicEventHandler onTopicEvent;
-				
-				public event onTopicEventHandler onTopic
-				{
-					add
-					{
-						onTopicEvent = (onTopicEventHandler) System.Delegate.Combine(onTopicEvent, value);
-					}
-					remove
-					{
-						onTopicEvent = (onTopicEventHandler) System.Delegate.Remove(onTopicEvent, value);
-					}
-				}
-				
-				public delegate void onTopicChannelWhoTimeEventHandler(string channel, string who, int time);
-				private onTopicChannelWhoTimeEventHandler onTopicChannelWhoTimeEvent;
-				
-				public event onTopicChannelWhoTimeEventHandler onTopicChannelWhoTime
-				{
-					add
-					{
-						onTopicChannelWhoTimeEvent = (onTopicChannelWhoTimeEventHandler) System.Delegate.Combine(onTopicChannelWhoTimeEvent, value);
-					}
-					remove
-					{
-						onTopicChannelWhoTimeEvent = (onTopicChannelWhoTimeEventHandler) System.Delegate.Remove(onTopicChannelWhoTimeEvent, value);
-					}
-				}
 				
 				
 				
@@ -703,6 +172,7 @@ namespace BlackLight.Services.Core
 				/// -----------------------------------------------------------------------------
 				public ServicesCore() 
 				{
+                    events = new ServicesEvents();
 					MyIRCd = new IRCd("Unreal", this);
 					MyIRCd.CannotParseProtocol += new IRCd.CannotParseProtocolEventHandler(IRCd_ParseError);
 					MyIRCd.tNoFile += new IRCd.tNoFileEventHandler(this.IRCd_NoFile);
@@ -759,8 +229,8 @@ namespace BlackLight.Services.Core
 							Commands.Send_Connect(tClient);
 						}
 						Commands.Send_EOBURST(Servername);
-						if (OnFinishedNetBurstEvent != null)
-							OnFinishedNetBurstEvent();
+						if (events.OnFinishedNetBurstEvent != null)
+                            events.OnFinishedNetBurstEvent();
 						Password = null;
 						Servername = null;
 						Hops = 0;
@@ -883,8 +353,8 @@ namespace BlackLight.Services.Core
 				
 				public void Raise_Quit (string Nickname, string Reason)
 				{
-					if (onQuitEvent != null)
-						onQuitEvent(Nickname, Reason);
+                    if (events.onQuitEvent != null)
+                        events.onQuitEvent(Nickname, Reason);
 				}
 				
 				/// -----------------------------------------------------------------------------
@@ -909,7 +379,7 @@ namespace BlackLight.Services.Core
 				{
 					try
 					{
-						if (LogMessageEvent != null)
+                        if (events.LogMessageEvent != null)
 						{
 							if (log_buffer != null && log_buffer.Count > 0)
 							{
@@ -917,12 +387,12 @@ namespace BlackLight.Services.Core
 								while (log_buffer.Count > 0)
 								{
 									tEvent = (LogEvent)log_buffer[0];
-									LogMessageEvent(tEvent.Origin, tEvent.Method, tEvent.Type, tEvent.Message, tEvent.Extra, tEvent.Exception, tEvent.Trace);
+                                    events.LogMessageEvent(tEvent.Origin, tEvent.Method, tEvent.Type, tEvent.Message, tEvent.Extra, tEvent.Exception, tEvent.Trace);
 									log_buffer.RemoveAt(0);
 								}
 							}
 							else
-								LogMessageEvent(Origin, Method, Type, Message, Extra, Exception, Trace);
+                                events.LogMessageEvent(Origin, Method, Type, Message, Extra, Exception, Trace);
 						}
 						else
 						{
@@ -1319,8 +789,8 @@ namespace BlackLight.Services.Core
                                     }
 									tServer.hostServer = tHostServer;
 									tHostServer.leafs.Add(tServer);
-									if (onServerEvent != null)
-										onServerEvent(tServer.name, tServer);
+                                    if (events.onServerEvent != null)
+                                        events.onServerEvent(tServer.name, tServer);
 									tServer = null;
 								}
 							}
@@ -1383,8 +853,8 @@ namespace BlackLight.Services.Core
                                     MyHost.description = arguments[cmd.getParameterIndex("SERVERDESCRIPTION")];
                                 MyHost.numeric = MyHost.id;
                             }
-								if (onServerEvent != null)
-									onServerEvent(MyHost.name, MyHost);
+                            if (events.onServerEvent != null)
+                                events.onServerEvent(MyHost.name, MyHost);
 						}
 						return true;
 					}
@@ -1484,8 +954,8 @@ namespace BlackLight.Services.Core
 									tUser.hostServer.users.Add(tUser);
                                     tUser.ParseModeSet(arguments[cmd.getParameterIndex("MODES")]);
                                     tUser.time = Base64.B64ToInt(arguments[cmd.getParameterIndex("TIME")]);
-									if (onClientConnectEvent != null)
-										onClientConnectEvent(tUser.name, tUser);
+                                    if (events.onClientConnectEvent != null)
+                                        events.onClientConnectEvent(tUser.name, tUser);
 									tUser = null;
 								}
 								else
@@ -1506,8 +976,8 @@ namespace BlackLight.Services.Core
 											tUser = ((BlackLight.Services.Nodes.Client) Source);
 											string tOldNick = tUser.nick;
                                             tUser.nick = arguments[cmd.getParameterIndex("NEWNICK")];
-											if (onNickEvent != null)
-												onNickEvent(tOldNick, tUser.nick);
+                                            if (events.onNickEvent != null)
+                                                events.onNickEvent(tOldNick, tUser.nick);
 											tUser = null;
 											tOldNick = null;
 										}
@@ -1559,8 +1029,8 @@ namespace BlackLight.Services.Core
 									//RaiseEvent onDebug("JOIN-Join Nick: " & tUser.Nick & " Channel: " & tMatch.Groups("CHANNEL").Value)
 									Channels[tChannelIndex].channelMembers.Add(new BlackLight.Services.Nodes.ChanMember(tUser, this));
 									tUser.channels.Add(Channels[tChannelIndex]);
-									if (onJoinEvent != null)
-										onJoinEvent(tUser.nick, Channels[tChannelIndex].name);
+                                    if (events.onJoinEvent != null)
+                                        events.onJoinEvent(tUser.nick, Channels[tChannelIndex].name);
 									tChannelIndex = 0;
 								}
                                 else if (arguments[cmd.getParameterIndex("CHANNEL")][0] == '0')
@@ -1645,8 +1115,8 @@ namespace BlackLight.Services.Core
 								{
 									Channels.RemoveAt(tChannelIndex);
 								}
-								if (onKickEvent != null)
-                                    onKickEvent(Source.name, tKicked.nick, arguments[cmd.getParameterIndex("REASON")]);
+                                if (events.onKickEvent != null)
+                                    events.onKickEvent(Source.name, tKicked.nick, arguments[cmd.getParameterIndex("REASON")]);
 							}
 							else
 							{
@@ -1707,8 +1177,8 @@ namespace BlackLight.Services.Core
 								{
 									Channels.RemoveAt(tChannelIndex);
 								}
-								if (onPartEvent != null)
-                                    onPartEvent(tUser.name, arguments[cmd.getParameterIndex("CHANNEL")]);
+                                if (events.onPartEvent != null)
+                                    events.onPartEvent(tUser.name, arguments[cmd.getParameterIndex("CHANNEL")]);
 							}
 							else
 							{
@@ -1846,8 +1316,8 @@ namespace BlackLight.Services.Core
                                                     Channels[tChannelIndex].channelMembers[tMemberIndex].addMode(tChar);
                                                 }
                                             }
-                                            if (onJoinEvent != null)
-                                                onJoinEvent(MyIRCd.ReadySJOINNick(TNick), arguments[cmd.getParameterIndex("CHANNEL")]);
+                                            if (events.onJoinEvent != null)
+                                                events.onJoinEvent(MyIRCd.ReadySJOINNick(TNick), arguments[cmd.getParameterIndex("CHANNEL")]);
                                         }
                                         else
                                         {
@@ -1892,8 +1362,8 @@ namespace BlackLight.Services.Core
 										return false;
 									}
                                     Channels[tChannelIndex].parseModeSet(arguments[cmd.getParameterIndex("MODESTRING")]);
-									if (onModeEvent != null)
-										onModeEvent();
+                                    if (events.onModeEvent != null)
+                                        events.onModeEvent();
 								}
 								else
 								{
@@ -2047,9 +1517,9 @@ namespace BlackLight.Services.Core
 									tDest = LocalClients[LocalIndex];
 									tDest.OnMsg(tUser, tMsgArray);
 								}
-								
-								if (onPrivMsgEvent != null)
-									onPrivMsgEvent(tUser, tReciever, tMsgArray);
+
+                                if (events.onPrivMsgEvent != null)
+                                    events.onPrivMsgEvent(tUser, tReciever, tMsgArray);
 								
 							}
 							else
@@ -2080,8 +1550,8 @@ namespace BlackLight.Services.Core
 							{
 								BlackLight.Services.Nodes.Client tUser = ((BlackLight.Services.Nodes.Client) Source);
                                 string[] tMsgArray = arguments[cmd.getParameterIndex("MESSAGE")].Split(' ');
-								if (onNoticeEvent != null)
-                                    onNoticeEvent(tUser, arguments[cmd.getParameterIndex("RECEIVER")], tMsgArray);
+                                if (events.onNoticeEvent != null)
+                                    events.onNoticeEvent(tUser, arguments[cmd.getParameterIndex("RECEIVER")], tMsgArray);
 								tUser = null;
 							}
 							else
@@ -2109,8 +1579,8 @@ namespace BlackLight.Services.Core
 						{
                             Commands.Send_Ping(MyName, arguments[cmd.getParameterIndex("REMOTESERVERNAME")]);
 							SendLogMessage("Services", "Ping", BlackLight.Services.Error.Errors.DEBUG, "PoooING PooooONG", "", "", "");
-							if (onPingEvent != null)
-								onPingEvent();
+                            if (events.onPingEvent != null)
+                                events.onPingEvent();
 						}
 						else
 						{
@@ -2119,8 +1589,8 @@ namespace BlackLight.Services.Core
 							{
                                 Commands.Send_Ping(MyName, arguments[cmd.getParameterIndex("REMOTESERVERNAME")]);
 								SendLogMessage("Services", "Ping", BlackLight.Services.Error.Errors.DEBUG, "PoooING PooooONG", "", "", "");
-								if (onPingEvent != null)
-									onPingEvent();
+                                if (events.onPingEvent != null)
+                                    events.onPingEvent();
 							}
 							else
 							{
@@ -2146,8 +1616,8 @@ namespace BlackLight.Services.Core
                             Command cmd = MyIRCd.Commands["QUITRECEIVE"];
 							if (arguments.Count == cmd.parameterCount())
 							{
-								if (onQuitEvent != null)
-                                    onQuitEvent(Source.name, arguments[cmd.getParameterIndex("REASON")]);
+                                if (events.onQuitEvent != null)
+                                    events.onQuitEvent(Source.name, arguments[cmd.getParameterIndex("REASON")]);
 								Source.Dispose();
 							}
 							else
@@ -2179,8 +1649,8 @@ namespace BlackLight.Services.Core
                                 BlackLight.Services.Nodes.IRCUser tUser = GetClientALL(arguments[cmd.getParameterIndex("NICKNAME")]);
 								if (tUser != null)
 								{
-									if (onSVSKillEvent != null)
-                                        onSVSKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
+                                    if (events.onSVSKillEvent != null)
+                                        events.onSVSKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2214,8 +1684,8 @@ namespace BlackLight.Services.Core
                                 BlackLight.Services.Nodes.IRCUser tUser = GetClientALL(arguments[cmd.getParameterIndex("NICKNAME")]);
 								if (tUser != null)
 								{
-									if (onKillEvent != null)
-                                        onKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
+                                    if (events.onKillEvent != null)
+                                        events.onKillEvent(tUser.name, arguments[cmd.getParameterIndex("REASON")]);
 									tUser.Dispose();
 								}
 								tUser = null;
@@ -2246,8 +1716,8 @@ namespace BlackLight.Services.Core
                             Command cmd = MyIRCd.Commands["SQUITRECEIVE"];
 							if (arguments.Count == cmd.parameterCount())
 							{
-								if (onSQUITEvent != null)
-                                    onSQUITEvent(arguments[cmd.getParameterIndex("SERVERNAME")], arguments[cmd.getParameterIndex("REASON")]);
+                                if (events.onSQUITEvent != null)
+                                    events.onSQUITEvent(arguments[cmd.getParameterIndex("SERVERNAME")], arguments[cmd.getParameterIndex("REASON")]);
 								foreach (BlackLight.Services.Nodes.Server tServer in MyHost.GetAllServers())
 								{
                                     if (tServer.name == arguments[cmd.getParameterIndex("SERVERNAME")])

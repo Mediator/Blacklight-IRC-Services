@@ -123,6 +123,7 @@
     <Compile Include="Errors.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Events.cs" />
     <Compile Include="IRC.cs">
       <SubType>Code</SubType>
     </Compile>

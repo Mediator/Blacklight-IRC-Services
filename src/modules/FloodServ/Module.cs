@@ -69,7 +69,7 @@ namespace BlackLight
 							BlackLight.Services.Timers.Timer FSSaveTimer;
 							FSSaveTimer = new BlackLight.Services.Timers.Timer(new TimeSpan(0), new TimeSpan(0, 5, 0), - 1, new Timers.TimedCallBack(TimerSaveDB));
 							MyBase.timerController.addTimer(FSSaveTimer);
-							MyBase.Core.OnFinishedNetBurst += new BlackLight.Services.Core.ServicesCore.OnFinishedNetBurstEventHandler(this.OnConnect);
+							MyBase.Core.events.OnFinishedNetBurst += new BlackLight.Services.Core.ServicesCore.ServicesEvents.OnFinishedNetBurstEventHandler(this.OnConnect);
 						}
 						catch (Exception ex)
 						{
@@ -87,7 +87,7 @@ namespace BlackLight
 						mFloodServ.realname = "FloodServ";
 						mFloodServ.time = BlackLight.Services.Converters.Time.GetTS(DateTime.Now);
 						mFloodServ.username = "FloodServ";
-						MyBase.Core.onClientConnect += new BlackLight.Services.Core.ServicesCore.onClientConnectEventHandler(MyService.OnClientConnect);
+						MyBase.Core.events.onClientConnect += new BlackLight.Services.Core.ServicesCore.ServicesEvents.onClientConnectEventHandler(MyService.OnClientConnect);
 						
 						mFloodServ.Cmds.Add("HELP", new BlackLight.Services.Nodes.CommandCallBack( MyService.FSHelp));
 						
