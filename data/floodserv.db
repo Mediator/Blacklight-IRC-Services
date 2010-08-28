@@ -1,0 +1,17 @@
+<data>
+  <table name="npwatches" columns="3" primary="match">
+    <column name="match" type="1" />
+    <column name="adder" type="1" />
+    <column name="date" type="3" />
+  </table>
+  <table name="nswatches" columns="3" primary="match">
+    <column name="match" type="1" />
+    <column name="adder" type="1" />
+    <column name="date" type="3" />
+  </table>
+  <table name="regwatches" columns="3" primary="match">
+    <column name="match" type="1" />
+    <column name="adder" type="1" />
+    <column name="date" type="3" />
+  </table>
+</data>

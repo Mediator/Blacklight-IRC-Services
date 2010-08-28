@@ -1,0 +1,9 @@
+<data>
+  <table name="users" columns="5" primary="nickname">
+    <column name="nickname" type="1" />
+    <column name="password" type="1" />
+    <column name="email" type="1" />
+    <column name="owner" type="1" />
+    <column name="regdate" type="3" />
+  </table>
+</data>

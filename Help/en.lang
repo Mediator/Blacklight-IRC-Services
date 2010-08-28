@@ -1,0 +1,138 @@
+<services>
+   <service name="floodserv">
+      <responses>
+         <response name="error">`B/msg {0} HELP {1}`B for more help.</response>
+         <response name="NO_SUCH_COMMAND">No such command `B{0}`B. `B/msg {1} HELP`B for more information.</response>
+         <response name="NPWATCH_ADD">`BSyntax: NPWATCH ADD `Uprefix`U`B</response>
+         <response name="NPWATCH_ADD_PREFIX_EXISTS">That prefix is already in the watch list</response>
+         <response name="NPWATCH_ADD_SUCESS">Prefex sucessfully added to the watch list</response>
+         <response name="NPWATCH_ADD_FAILURE">Unable to add prefix to the watch list</response>
+         <response name="NPWATCH_DELL">`BSyntax: NPWATCH DEL `Uprefix`U`B</response>
+         <response name="NPWATCH_DEL_NO_MATCH">No such prefix in the watch list</response>
+         <response name="NPWATCH_DEL_SUCESS">Prefex sucessfully removed from the watch list</response>
+         <response name="NPWATCH_DEL_FAILURE">Unable to remove prefix from the watch list</response>
+         <response name="NPWATCH_LIST_EMPTY">Watch list contains no entries</response>
+         <response name="NPWATCH_LIST_START">Nick Prefix Watch List</response>
+         <response name="NPWATCH_LIST_END">End of list</response>
+         <response name="NPWATCH_LISTING">{0} {1} (by {2} on {3})</response>
+         <response name="NPWATCH_LIST_FAILURE">Unable to fully list entries</response>
+         <response name="NPWATCH">`BSyntax: NPWATCH ADD `Uprefix`U`B
+`BSyntax: NPWATCH DEL `U[prefix|id]`U`B
+`BSyntax: NPWATCH LIST`B</response>
+
+         <response name="REGWATCH_ADD">`BSyntax: REGWATCH ADD `Upattern`U`B</response>
+         <response name="REGWATCH_ADD_PREFIX_EXISTS">That pattern is already in the watch list</response>
+         <response name="REGWATCH_ADD_SUCESS">Pattern sucessfully added to the watch list</response>
+         <response name="REGWATCH_ADD_FAILURE">Unable to add pattern to the watch list</response>
+         <response name="REGWATCH_DELL">`BSyntax: REGWATCH DEL `Upattern`U`B</response>
+         <response name="REGWATCH_DEL_NO_MATCH">No such pattern in the watch list</response>
+         <response name="REGWATCH_DEL_SUCESS">Pattern sucessfully removed from the watch list</response>
+         <response name="REGWATCH_DEL_FAILURE">Unable to remove pattern from the watch list</response>
+         <response name="REGWATCH_LIST_EMPTY">Watch list contains no entries</response>
+         <response name="REGWATCH_LIST_START">Nick Pattern Watch List</response>
+         <response name="REGWATCH_LIST_END">End of list</response>
+         <response name="REGWATCH_LISTING">{0} {1} (by {2} on {3})</response>
+         <response name="REGWATCH_LIST_FAILURE">Unable to fully list entries</response>
+         <response name="REGWATCH">`BSyntax: REGWATCH ADD `Upattern`U`B
+`BSyntax: REGWATCH DEL `U[pattern|id]`U`B
+`BSyntax: REGWATCH LIST`B</response>
+
+         <response name="NSWATCH_ADD">`BSyntax: NSWATCH ADD `Uprefix`U`B</response>
+         <response name="NSWATCH_ADD_PREFIX_EXISTS">That suffix is already in the watch list</response>
+         <response name="NSWATCH_ADD_SUCESS">Suffix sucessfully added to the watch list</response>
+         <response name="NSWATCH_ADD_FAILURE">Unable to add suffix to the watch list</response>
+         <response name="NSWATCH_DELL">`BSyntax: NSWATCH DEL `Usuffix`U`B</response>
+         <response name="NSWATCH_DEL_NO_MATCH">No such suffix in the watch list</response>
+         <response name="NSWATCH_DEL_SUCESS">Suffix sucessfully removed from the watch list</response>
+         <response name="NSWATCH_DEL_FAILURE">Unable to remove suffix from the watch list</response>
+         <response name="NSWATCH_LIST_EMPTY">Watch list contains no entries</response>
+         <response name="NSWATCH_LIST_START">Nick Suffix Watch List</response>
+         <response name="NSWATCH_LIST_END">End of list</response>
+         <response name="NSWATCH_LISTING">{0} {1} (by {2} on {3})</response>
+         <response name="NSWATCH_LIST_FAILURE">Unable to fully list entries</response>
+         <response name="NSWATCH">`BSyntax: NSWATCH ADD `Usuffix`U`B
+`BSyntax: NSWATCH DEL `U[suffix|id]`U`B
+`BSyntax: NSWATCH LIST`B</response>
+      </responses>
+      <commands>
+	   <command name="NPWATCH">Syntax: `BNPWATCH LIST`B
+`BNPWATCH ADD prefix`B
+`BNPWATCH DEL [prefix | id]`B
+ 
+Maintains the npwatch list for the network.
+The npwatch list specifies nickname prefixes
+that will be glined on connecting
+ 
+The `BNPWATCH ADD`B command adds the given prefix
+to the npwatch list
+ 
+The `BNPWATCH DEL`B command deletes the given prefix
+from the npwatch list. If a number is given it deletes
+the matching prefix
+ 
+The `BNPWATCH LIST`B command lists all the prefixes
+for the npwatch list</command>
+	   <command name="NSWATCH">Syntax: `BNSWATCH LIST`B
+`BNSWATCH ADD suffix`B
+`BNSWATCH DEL [suffix | id]`B
+ 
+Maintains the nswatch list for the network.
+The nswatch list specifies nickname suffix
+that will be glined on connecting
+ 
+The `BNSWATCH ADD`B command adds the given suffix
+to the nswatch list
+ 
+The `BNSWATCH DEL`B command deletes the given suffix
+from the nswatch list. If a number is given it deletes
+the matching suffix
+ 
+The `BNSWATCH LIST`B command lists all the suffixes
+for the nswatch list</command>
+	   <command name="REGWATCH">Syntax: `BREGWATCH LIST`B
+`BREGWATCH ADD regex-pattern`B
+`BREGWATCH DEL [regex-pattern | id]`B
+ 
+Maintains the regwatch list for the network.
+The regwatch list specifies a regex strings
+that when matched with a connecting client will glined on connect
+ 
+The `BREGWATCH ADD`B command adds the given pattern
+to the regwatch list
+ 
+The `BREGWATCH DEL`B command deletes the given pattern
+from the regwatch list. If a number is given it deletes
+the matching pattent
+ 
+The `BREGWATCH LIST`B command lists all the patterns
+for the regwatch list</command>
+	   <command name="PRESCAN">Syntax: `BPRESCAN prefix`B
+ 
+Will gline all users who are currently connected and.
+whos nicknames match the given prefix</command>
+	   <command name="REGSCAN">Syntax: `BREGSCAN regular expressions`B
+ 
+Will gline all users who are currently connected and.
+whos nicknames match the given regex string</command>
+	   <command name="SUFSCAN">Syntax: `BSUFSCAN suffix`B
+ 
+Will gline all users who are currently connected and.
+whos nicknames match the given suffix</command>
+	   <command name="HELP">`BFloodServ`B is a network Flood protection service.
+`BFloodServ`B allows IRCops to maintain an acceptable
+IRC chatting enviroment for their users.
+Commands are as follows
+ 
+NPWATCH- Maintain nickname-prefix connection watch list
+NSWATCH- Maintain nickname-suffix connection watch list
+REGWATCH- Maintain nickname regex connection watch list
+RegScan- Akills all nicks that match a pattern
+NPScan- Akills all nicks with a defined prefix
+NSScan- Akills all nicks with a defined suffix
+ 
+Type `B/msg FloodServ HELP `Ucommand`U`B for help on any of the
+above commands.</command>
+	   <command name="SET"><commands><command name="HELP">this is teh set</command><command name="ORLY">O RLY?!?!?!</command></commands></command>
+     </commands>
+   </service>
+</services>

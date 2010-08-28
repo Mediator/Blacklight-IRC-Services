@@ -1,0 +1,95 @@
+"Client Connection Messages" 
+C!BLOCK {
+CONNECTRECEIVE:NICK="nickname,hops,time,username,host,servername,null,modes,vhost,realname"
+QUITRECEIVE:QUIT="reason"
+SVSKILLRECEIVE:SVSKILL="nickname,reason"
+KILLRECEIVE:KILL="nickname,path,reason"
+-------------------------
+CONNECTSEND:NICK="%nickname%,%hops%,%time%,%username%,%host%, %servername%,0,%modes%,*,:%realname%"
+SVSKILLSEND:SVSKILL="%nickname%,:%reason%"
+QUITSEND:QUIT=":%reason%"
+}
+
+-------------------------------------------------
+"Server Management Messages" 
+SC!BLOCK {
+SERVERALTRECEIVE:SERVER="servername, hops,serverdescription"
+SERVERRECEIVE:SERVER="servername, hops, servernumeric, serverdescription"
+PINGLOCALRECEIVE:PING="remoteservername"
+PINGREMOTERECEIVE:PING="remoteservername,servername"
+SQUITRECEIVE:SQUIT="servername,reason"
+ENDOFBURSTRECEIVE:EOS=""
+NETINFORECEIVE:NETINFO="null,tssync,protocol,cloak,null,null,null,networkname"
+-------------------------
+PONGSEND:PONG="%serverreceived%"
+PASSSEND:PASS=":%serverpass%"
+SERVERSEND:SERVER="%servicesname%,%hops%,:U0-0-%servernumeric%,%description%"
+PROTOCOLSEND:PROTOCTL="SJOIN,SJOIN2,UMODE2,NOQUIT,NICKv2,SJB64,VL"
+ENDOFBURSTSEND:EOS=""
+NETINFOSEND:NETINFO="1,%tssync%,%protocol%,MD5:%cloak%,0,0,0,:%networkname%"
+}
+
+
+"TKL Messages" 
+T!BLOCK {
+TKL_GSEND:TKL="+,G,%user%,%host%,%adder%,%expires%,%time%,:%reason%"
+TKL_ZSEND:TKL="+,Z,%user%,%host%,%adder%,%expires%,%time%,:%reason%"
+}
+
+--------------------------------------------------
+NICKRECEIVE:NICK="newnick, time"
+
+
+--------------------------------------------------
+PRIVMSGRECEIVE:PRIVMSG="receiver,message"
+NOTICERECEIVE:NOTICE="receiver,message"
+
+-------------------------
+PRIVMSGSEND:PRIVMSG="%receiver%,:%message%"
+NOTICESEND:NOTICE="%receiver%,:%message%"
+
+--------------------------------------------------
+JOINRECEIVE:JOIN="channel"
+PARTRECEIVE:PART="channel"
+KICKRECEIVE:KICK="channel,nickname,reason"
+SJOINRECEIVE:SJOIN="time,channel,modestring,null,userlist"
+
+--------------------------------------------------
+JOINSEND:JOIN="%channel%,%key%"
+
+---------------------------------------------------
+
+TOPICRECEIVE:TOPIC="channel, whoset, time, topic"
+
+
+---------------------------------------------------
+UMODERECEIVE:UMODE2="modestring"
+MODERECEIVE:MODE="object,modestring"
+SVSMODERECEIVE:SVSMODE="object,modestring,time"
+SVS2MODERECEIVE:SVS2MODE="object,modestring,time"
+
+
+SETREGISTEREDSEND:SVS2MODE="%client%, +r"
+
+---------------------------------------------------
+SJOIN_q_PREFIX="*"
+SJOIN_a_PREFIX="~"
+SJOIN_o_PREFIX="@"
+SJOIN_h_PREFIX="%"
+SJOIN_v_PREFIX="+"
+SJOIN_ban_PREFIX="&"
+SJOIN_exempt_PREFIX="""
+SJOIN_invex_PREFIX="'"
+
+
+---------------------------------------------------
+
+CHANNELMODE_OP="o"
+CHANNELMODE_ADMIN="a"
+CHANNELMODE_OWNER="q"
+CHANNELMODE_HALFOP="h"
+CHANNELMODE_VOICE="v"
+CHANNELMODE_SUPPORTEDSTATUSMODES="qaohv"
+CHANNELMODE_SUPPORTEDACCESSMODES="beI"
+CHANNELMODE_SUPPORTEDPARAMMODES="fjklL"
+CHANNELMODE_SUPPORTEDMODES="AcCGiKMmNnOpQRSstTuVz"
